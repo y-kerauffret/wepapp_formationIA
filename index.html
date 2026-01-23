@@ -44,9 +44,6 @@
                 linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
             background-size: 50px 50px;
         }
-        .profile-btn { transition: all 0.2s ease; border: 1px solid transparent; }
-        .profile-btn:hover { border-color: rgba(99, 102, 241, 0.3); background: rgba(99, 102, 241, 0.1); }
-        .profile-btn.active { border-color: #6366f1; background: rgba(99, 102, 241, 0.15); box-shadow: 0 0 20px rgba(99, 102, 241, 0.2); }
         .tile {
             background: linear-gradient(135deg, rgba(26, 26, 36, 0.8) 0%, rgba(18, 18, 26, 0.9) 100%);
             border: 1px solid rgba(99, 102, 241, 0.1);
@@ -93,18 +90,7 @@
                 </p>
             </header>
 
-            <section class="max-w-6xl mx-auto mb-12 animate-in" style="animation-delay: 0.2s;">
-                <p class="text-sm text-gray-500 uppercase tracking-wider mb-4 font-medium">Votre profil</p>
-                <div class="flex flex-wrap gap-3">
-                    <button class="profile-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-300" data-profile="agent">👤 Agent administratif</button>
-                    <button class="profile-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-300" data-profile="cadre">👔 Cadre / Chef de service</button>
-                    <button class="profile-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-300" data-profile="direction">🏛️ Direction générale</button>
-                    <button class="profile-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-300" data-profile="elu">🎖️ Élu</button>
-                    <button class="profile-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-300" data-profile="formateur">🎓 Formateur <span class="text-accent-secondary text-xs ml-1">(mode démo)</span></button>
-                </div>
-            </section>
-
-            <section class="max-w-6xl mx-auto animate-in" style="animation-delay: 0.3s;">
+            <section class="max-w-6xl mx-auto animate-in" style="animation-delay: 0.2s;">
                 <p class="text-sm text-gray-500 uppercase tracking-wider mb-6 font-medium">Quel est votre besoin ?</p>
                 <div id="tiles-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
             </section>
@@ -146,7 +132,6 @@
 
     <script>
         let appData = null;
-        let selectedProfile = null;
         const mainView = document.getElementById('main-view');
         const decisionView = document.getElementById('decision-view');
         const glossaireView = document.getElementById('glossaire-view');
@@ -304,13 +289,6 @@
         backButton.addEventListener('click', () => { decisionView.classList.add('hidden'); mainView.classList.remove('hidden'); window.scrollTo(0, 0); });
         glossaireToggle.addEventListener('click', () => { mainView.classList.add('hidden'); decisionView.classList.add('hidden'); glossaireView.classList.remove('hidden'); window.scrollTo(0, 0); });
         glossaireBack.addEventListener('click', () => { glossaireView.classList.add('hidden'); mainView.classList.remove('hidden'); window.scrollTo(0, 0); });
-        document.querySelectorAll('.profile-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
-                document.querySelectorAll('.profile-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                selectedProfile = btn.dataset.profile;
-            });
-        });
         loadData();
     </script>
 </body>
