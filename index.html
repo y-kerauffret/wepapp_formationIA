@@ -17,16 +17,25 @@
                         'mono': ['JetBrains Mono', 'monospace'],
                     },
                     colors: {
+                        'cream': {
+                            '50': '#FFFDF7',
+                            '100': '#FFF9E8',
+                            '200': '#FFF3D4',
+                            '300': '#FFE8B8',
+                            '400': '#F5DEB3',
+                        },
                         'surface': {
-                            '900': '#0a0a0f',
-                            '800': '#12121a',
-                            '700': '#1a1a24',
-                            '600': '#24242f',
+                            '50': '#FEFDFB',
+                            '100': '#FAF8F5',
+                            '200': '#F5F2ED',
+                            '300': '#EBE7E0',
+                            '400': '#D4CFC5',
                         },
                         'accent': {
-                            'primary': '#6366f1',
-                            'secondary': '#22d3ee',
-                            'warning': '#f59e0b',
+                            'primary': '#7C6EE7',
+                            'secondary': '#5BA4A4',
+                            'tertiary': '#E7A07C',
+                            'warning': '#D4A574',
                         }
                     }
                 }
@@ -36,129 +45,145 @@
     <style>
         * { font-family: 'Space Grotesk', sans-serif; }
         body {
-            background: radial-gradient(ellipse at top, #12121a 0%, #0a0a0f 50%);
+            background: linear-gradient(180deg, #FFFDF7 0%, #FFF9E8 50%, #F5F2ED 100%);
             min-height: 100vh;
         }
-        .bg-grid {
-            background-image: linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
-            background-size: 50px 50px;
+        .bg-pattern {
+            background-image: radial-gradient(circle at 2px 2px, rgba(124, 110, 231, 0.08) 1px, transparent 0);
+            background-size: 32px 32px;
         }
         .tile {
-            background: linear-gradient(135deg, rgba(26, 26, 36, 0.8) 0%, rgba(18, 18, 26, 0.9) 100%);
-            border: 1px solid rgba(99, 102, 241, 0.1);
+            background: linear-gradient(135deg, #FFFFFF 0%, #FEFDFB 100%);
+            border: 2px solid #EBE7E0;
             transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative; overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
         }
         .tile::before {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
-            background: linear-gradient(90deg, transparent, #6366f1, transparent);
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+            background: linear-gradient(90deg, #7C6EE7, #5BA4A4, #E7A07C);
             opacity: 0; transition: opacity 0.3s ease;
         }
-        .tile:hover { transform: translateY(-4px); border-color: rgba(99, 102, 241, 0.3);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(99, 102, 241, 0.1); }
+        .tile:hover { transform: translateY(-4px); border-color: #7C6EE7;
+            box-shadow: 0 12px 32px rgba(124, 110, 231, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08); }
         .tile:hover::before { opacity: 1; }
         .tile:active { transform: translateY(-2px); }
-        .tile-icon { font-size: 2rem; transition: transform 0.3s ease; }
-        .tile:hover .tile-icon { transform: scale(1.1); }
+        .tile-icon { font-size: 2.75rem; transition: transform 0.3s ease; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
+        .tile:hover .tile-icon { transform: scale(1.15); }
         @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
         .animate-in { animation: fadeInUp 0.5s ease forwards; opacity: 0; }
         .glossaire-btn { transition: all 0.2s ease; }
-        .glossaire-btn:hover { background: rgba(99, 102, 241, 0.1); }
+        .glossaire-btn:hover { background: rgba(124, 110, 231, 0.1); border-color: #7C6EE7; }
         .stepper-item { position: relative; }
         .stepper-item::after {
-            content: ''; position: absolute; top: 20px; left: 40px; right: -50%; height: 2px;
-            background: linear-gradient(90deg, rgba(99, 102, 241, 0.3), transparent);
+            content: ''; position: absolute; top: 24px; left: 48px; right: -50%; height: 3px;
+            background: linear-gradient(90deg, #EBE7E0, transparent);
+            border-radius: 2px;
         }
         .stepper-item:last-child::after { display: none; }
-        .stepper-item.active .stepper-circle { background: #6366f1; color: white; box-shadow: 0 0 20px rgba(99, 102, 241, 0.5); }
-        .stepper-item.completed .stepper-circle { background: #22c55e; color: white; }
-        .stepper-item.completed::after { background: linear-gradient(90deg, #22c55e, rgba(99, 102, 241, 0.3)); }
+        .stepper-item.active .stepper-circle { background: #7C6EE7; color: white; box-shadow: 0 4px 16px rgba(124, 110, 231, 0.4); }
+        .stepper-item.completed .stepper-circle { background: #5BA4A4; color: white; }
+        .stepper-item.completed::after { background: linear-gradient(90deg, #5BA4A4, #EBE7E0); }
         .stepper-circle {
-            width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
-            background: rgba(99, 102, 241, 0.2); color: #6366f1; font-weight: bold; transition: all 0.3s ease;
-            border: 2px solid rgba(99, 102, 241, 0.3); position: relative; z-index: 1;
+            width: 48px; height: 48px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            background: #F5F2ED; color: #7C6EE7; font-weight: bold; transition: all 0.3s ease;
+            border: 3px solid #EBE7E0; position: relative; z-index: 1; font-size: 1.1rem;
         }
         .workflow-card {
-            background: linear-gradient(135deg, rgba(26, 26, 36, 0.9) 0%, rgba(18, 18, 26, 0.95) 100%);
-            border: 1px solid rgba(99, 102, 241, 0.2);
+            background: linear-gradient(135deg, #FFFFFF 0%, #FEFDFB 100%);
+            border: 2px solid #EBE7E0;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
         }
         .checklist-item { transition: all 0.2s ease; }
-        .checklist-item:hover { background: rgba(99, 102, 241, 0.05); }
-        .checklist-item input:checked + span { color: #22c55e; text-decoration: line-through; }
+        .checklist-item:hover { background: rgba(124, 110, 231, 0.06); }
+        .checklist-item input:checked + span { color: #5BA4A4; text-decoration: line-through; }
+        .card-section {
+            background: #FFFFFF;
+            border: 2px solid #EBE7E0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+        .card-accent {
+            background: linear-gradient(135deg, rgba(124, 110, 231, 0.08) 0%, rgba(124, 110, 231, 0.03) 100%);
+            border: 2px solid rgba(124, 110, 231, 0.2);
+        }
+        .card-warning {
+            background: linear-gradient(135deg, rgba(212, 165, 116, 0.12) 0%, rgba(212, 165, 116, 0.05) 100%);
+            border: 2px solid rgba(212, 165, 116, 0.3);
+        }
+        .emoji-large { font-size: 3.5rem; filter: drop-shadow(0 3px 6px rgba(0,0,0,0.12)); }
     </style>
 </head>
-<body class="bg-surface-900 text-gray-100 bg-grid">
-    <div class="min-h-screen px-4 py-8 md:px-8 lg:px-16">
-        
+<body class="bg-cream-50 text-gray-700 bg-pattern">
+    <div class="min-h-screen px-4 py-10 md:px-8 lg:px-16">
+
         <div id="main-view">
-            <header class="max-w-6xl mx-auto mb-12 animate-in" style="animation-delay: 0.1s;">
-                <div class="flex items-center justify-between mb-4 flex-wrap gap-4">
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-accent-primary to-accent-secondary flex items-center justify-center">
-                            <span class="text-xl">🧭</span>
+            <header class="max-w-6xl mx-auto mb-14 animate-in" style="animation-delay: 0.1s;">
+                <div class="flex items-center justify-between mb-6 flex-wrap gap-4">
+                    <div class="flex items-center gap-4">
+                        <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-accent-primary to-accent-secondary flex items-center justify-center shadow-lg">
+                            <span class="text-3xl">🧭</span>
                         </div>
-                        <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">
+                        <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-gray-800">
                             Arbre de décision des outils <span class="text-accent-primary">IA</span>
                         </h1>
                     </div>
-                    <button id="glossaire-toggle" class="glossaire-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-400 border border-surface-600">
+                    <button id="glossaire-toggle" class="glossaire-btn px-5 py-2.5 rounded-xl text-sm font-semibold text-gray-600 border-2 border-surface-300 bg-white shadow-sm">
                         📖 Glossaire
                     </button>
                 </div>
-                <p class="text-gray-400 text-lg max-w-2xl">
-                    Apprendre à <span class="text-gray-200 font-medium">penser l'IA</span> avant de l'utiliser. Un outil de raisonnement, pas un catalogue.
+                <p class="text-gray-600 text-lg max-w-2xl leading-relaxed">
+                    Apprendre à <span class="text-gray-800 font-semibold">penser l'IA</span> avant de l'utiliser. Un outil de raisonnement, pas un catalogue.
                 </p>
             </header>
 
             <section class="max-w-6xl mx-auto animate-in" style="animation-delay: 0.2s;">
-                <p class="text-sm text-gray-500 uppercase tracking-wider mb-6 font-medium">Quel est votre besoin ?</p>
-                <div id="tiles-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
+                <p class="text-sm text-accent-primary uppercase tracking-wider mb-6 font-semibold">Quel est votre besoin ?</p>
+                <div id="tiles-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"></div>
             </section>
 
-            <footer class="max-w-6xl mx-auto mt-16 pt-8 border-t border-surface-600 animate-in" style="animation-delay: 0.4s;">
-                <div class="flex items-start gap-3 text-sm text-gray-500">
-                    <span class="text-accent-warning">⚠️</span>
-                    <p><span class="text-gray-400 font-medium">Rappel permanent :</span> L'IA peut produire des erreurs (hallucinations), des biais, et n'est jamais déterministe. <span class="text-gray-400">La responsabilité finale reste humaine.</span></p>
+            <footer class="max-w-6xl mx-auto mt-16 pt-8 border-t-2 border-surface-300 animate-in" style="animation-delay: 0.4s;">
+                <div class="card-warning rounded-xl p-4 flex items-start gap-3">
+                    <span class="text-2xl">⚠️</span>
+                    <p class="text-sm text-gray-600"><span class="text-gray-700 font-semibold">Rappel permanent :</span> L'IA peut produire des erreurs (hallucinations), des biais, et n'est jamais déterministe. <span class="text-gray-700 font-medium">La responsabilité finale reste humaine.</span></p>
                 </div>
             </footer>
         </div>
 
         <div id="decision-view" class="hidden">
-            <button id="back-button" class="flex items-center gap-2 text-gray-400 hover:text-gray-200 transition-colors mb-8 group">
-                <span class="transform group-hover:-translate-x-1 transition-transform">←</span>
+            <button id="back-button" class="flex items-center gap-2 text-gray-500 hover:text-accent-primary transition-colors mb-8 group font-medium">
+                <span class="transform group-hover:-translate-x-1 transition-transform text-lg">←</span>
                 <span>Retour aux besoins</span>
             </button>
             <div id="decision-content" class="max-w-4xl mx-auto"></div>
-            <footer class="max-w-4xl mx-auto mt-16 pt-8 border-t border-surface-600">
-                <div class="flex items-start gap-3 text-sm text-gray-500">
-                    <span class="text-accent-warning">⚠️</span>
-                    <p><span class="text-gray-400 font-medium">Rappel permanent :</span> L'IA peut produire des erreurs (hallucinations), des biais, et n'est jamais déterministe. <span class="text-gray-400">La responsabilité finale reste humaine.</span></p>
+            <footer class="max-w-4xl mx-auto mt-16 pt-8 border-t-2 border-surface-300">
+                <div class="card-warning rounded-xl p-4 flex items-start gap-3">
+                    <span class="text-2xl">⚠️</span>
+                    <p class="text-sm text-gray-600"><span class="text-gray-700 font-semibold">Rappel permanent :</span> L'IA peut produire des erreurs (hallucinations), des biais, et n'est jamais déterministe. <span class="text-gray-700 font-medium">La responsabilité finale reste humaine.</span></p>
                 </div>
             </footer>
         </div>
 
         <div id="glossaire-view" class="hidden">
-            <button id="glossaire-back" class="flex items-center gap-2 text-gray-400 hover:text-gray-200 transition-colors mb-8 group">
-                <span class="transform group-hover:-translate-x-1 transition-transform">←</span>
+            <button id="glossaire-back" class="flex items-center gap-2 text-gray-500 hover:text-accent-primary transition-colors mb-8 group font-medium">
+                <span class="transform group-hover:-translate-x-1 transition-transform text-lg">←</span>
                 <span>Retour aux besoins</span>
             </button>
             <div class="max-w-4xl mx-auto">
-                <h2 class="text-3xl font-bold text-gray-100 mb-2">📖 Glossaire</h2>
-                <p class="text-gray-400 mb-8">Les termes techniques expliqués simplement</p>
+                <h2 class="text-3xl font-bold text-gray-800 mb-3 flex items-center gap-3"><span class="text-4xl">📖</span> Glossaire</h2>
+                <p class="text-gray-600 mb-8 text-lg">Les termes techniques expliqués simplement</p>
                 <div id="glossaire-content" class="space-y-4"></div>
             </div>
         </div>
 
         <div id="workflow-view" class="hidden">
-            <button id="workflow-back" class="flex items-center gap-2 text-gray-400 hover:text-gray-200 transition-colors mb-8 group">
-                <span class="transform group-hover:-translate-x-1 transition-transform">←</span>
+            <button id="workflow-back" class="flex items-center gap-2 text-gray-500 hover:text-accent-primary transition-colors mb-8 group font-medium">
+                <span class="transform group-hover:-translate-x-1 transition-transform text-lg">←</span>
                 <span>Retour à la fiche</span>
             </button>
             <div class="max-w-5xl mx-auto">
-                <div id="workflow-header" class="mb-8">
-                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-100 mb-2">Workflow guidé</h2>
-                    <p id="workflow-besoin" class="text-gray-400"></p>
+                <div id="workflow-header" class="mb-10">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-800 mb-3">Workflow guidé</h2>
+                    <p id="workflow-besoin" class="text-gray-600 text-lg"></p>
                 </div>
 
                 <div id="stepper" class="flex justify-between mb-12 overflow-x-auto pb-4"></div>
@@ -166,18 +191,18 @@
                 <div id="workflow-content" class="workflow-card rounded-2xl p-6 sm:p-8"></div>
 
                 <div class="flex justify-between mt-8">
-                    <button id="workflow-prev" class="px-6 py-3 rounded-lg bg-surface-700 text-gray-300 hover:bg-surface-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                    <button id="workflow-prev" class="px-6 py-3 rounded-xl bg-surface-200 text-gray-600 hover:bg-surface-300 transition-colors disabled:opacity-50 disabled:cursor-not-allowed font-medium border-2 border-surface-300">
                         ← Précédent
                     </button>
-                    <button id="workflow-next" class="px-6 py-3 rounded-lg bg-accent-primary text-white hover:bg-accent-primary/80 transition-colors">
+                    <button id="workflow-next" class="px-6 py-3 rounded-xl bg-accent-primary text-white hover:bg-accent-primary/90 transition-colors font-medium shadow-lg shadow-accent-primary/20">
                         Suivant →
                     </button>
                 </div>
             </div>
-            <footer class="max-w-5xl mx-auto mt-16 pt-8 border-t border-surface-600">
-                <div class="flex items-start gap-3 text-sm text-gray-500">
-                    <span class="text-accent-warning">⚠️</span>
-                    <p><span class="text-gray-400 font-medium">Rappel permanent :</span> L'IA peut produire des erreurs (hallucinations), des biais, et n'est jamais déterministe. <span class="text-gray-400">La responsabilité finale reste humaine.</span></p>
+            <footer class="max-w-5xl mx-auto mt-16 pt-8 border-t-2 border-surface-300">
+                <div class="card-warning rounded-xl p-4 flex items-start gap-3">
+                    <span class="text-2xl">⚠️</span>
+                    <p class="text-sm text-gray-600"><span class="text-gray-700 font-semibold">Rappel permanent :</span> L'IA peut produire des erreurs (hallucinations), des biais, et n'est jamais déterministe. <span class="text-gray-700 font-medium">La responsabilité finale reste humaine.</span></p>
                 </div>
             </footer>
         </div>
@@ -218,10 +243,10 @@
             const besoins = Object.keys(appData.recommandations);
             tilesGrid.innerHTML = besoins.map(besoin => {
                 const data = appData.recommandations[besoin];
-                return '<button class="tile rounded-xl p-5 text-left cursor-pointer group" data-besoin="' + besoin + '">' +
-                    '<span class="tile-icon block mb-3">' + data.icon + '</span>' +
-                    '<h3 class="font-semibold text-gray-100 mb-1">' + besoin + '</h3>' +
-                    '<p class="text-sm text-gray-500 group-hover:text-gray-400 transition-colors">' + data.description + '</p>' +
+                return '<button class="tile rounded-2xl p-6 text-left cursor-pointer group" data-besoin="' + besoin + '">' +
+                    '<span class="tile-icon block mb-4">' + data.icon + '</span>' +
+                    '<h3 class="font-bold text-gray-800 mb-2 text-lg">' + besoin + '</h3>' +
+                    '<p class="text-sm text-gray-500 group-hover:text-gray-600 transition-colors leading-relaxed">' + data.description + '</p>' +
                     '</button>';
             }).join('');
             document.querySelectorAll('.tile').forEach(tile => {
@@ -233,12 +258,12 @@
             const termes = Object.keys(appData.glossaire);
             glossaireContent.innerHTML = termes.map(key => {
                 const item = appData.glossaire[key];
-                return '<div class="bg-surface-700/50 border border-surface-600 rounded-xl p-5">' +
-                    '<h3 class="text-lg font-bold text-accent-primary mb-2">' + item.terme + '</h3>' +
-                    '<p class="text-gray-300 mb-3">' + item.definition + '</p>' +
-                    '<div class="bg-surface-800 rounded-lg p-3">' +
-                    '<p class="text-xs text-gray-500 uppercase mb-1">Exemple</p>' +
-                    '<p class="text-sm text-gray-400">' + item.exemple + '</p>' +
+                return '<div class="card-section rounded-2xl p-6">' +
+                    '<h3 class="text-lg font-bold text-accent-primary mb-3">' + item.terme + '</h3>' +
+                    '<p class="text-gray-600 mb-4 leading-relaxed">' + item.definition + '</p>' +
+                    '<div class="bg-surface-100 rounded-xl p-4 border border-surface-300">' +
+                    '<p class="text-xs text-accent-secondary uppercase mb-2 font-semibold">Exemple</p>' +
+                    '<p class="text-sm text-gray-600">' + item.exemple + '</p>' +
                     '</div></div>';
             }).join('');
         }
@@ -252,90 +277,90 @@
                 const defs = data.definitions.map(key => {
                     const def = appData.glossaire[key];
                     if (!def) return '';
-                    return '<div class="bg-accent-primary/10 border border-accent-primary/30 rounded-lg p-3">' +
-                        '<p class="text-xs text-accent-primary font-medium mb-1">💡 ' + def.terme + '</p>' +
-                        '<p class="text-sm text-gray-300">' + def.definition + '</p></div>';
+                    return '<div class="card-accent rounded-xl p-4">' +
+                        '<p class="text-sm text-accent-primary font-semibold mb-2">💡 ' + def.terme + '</p>' +
+                        '<p class="text-sm text-gray-600">' + def.definition + '</p></div>';
                 }).join('');
-                definitionsHTML = '<div class="space-y-2 mb-6">' + defs + '</div>';
+                definitionsHTML = '<div class="space-y-3 mb-6">' + defs + '</div>';
             }
 
             let methodeHTML = '';
             if (data.methode) {
-                const etapes = data.methode.etapes.map(e => 
-                    '<div class="bg-surface-700/50 rounded-lg p-4">' +
+                const etapes = data.methode.etapes.map(e =>
+                    '<div class="bg-surface-100 rounded-xl p-4 border border-surface-300">' +
                     '<div class="flex items-center gap-3 mb-2">' +
-                    '<span class="w-8 h-8 rounded-full bg-accent-primary/20 text-accent-primary flex items-center justify-center font-bold text-sm">' + e.numero + '</span>' +
-                    '<h4 class="font-semibold text-gray-100">' + e.titre + '</h4></div>' +
-                    '<p class="text-sm text-gray-400 mb-2">' + e.description + '</p>' +
-                    '<div class="bg-surface-800 rounded p-2 font-mono text-xs text-gray-300 break-words">"' + e.exemple + '"</div></div>'
+                    '<span class="w-9 h-9 rounded-full bg-accent-primary/15 text-accent-primary flex items-center justify-center font-bold text-sm">' + e.numero + '</span>' +
+                    '<h4 class="font-semibold text-gray-800">' + e.titre + '</h4></div>' +
+                    '<p class="text-sm text-gray-600 mb-2">' + e.description + '</p>' +
+                    '<div class="bg-white rounded-lg p-3 font-mono text-xs text-gray-600 break-words border border-surface-300">"' + e.exemple + '"</div></div>'
                 ).join('');
-                const conseils = data.methode.conseils.map(c => '<li class="text-sm text-gray-400">• ' + c + '</li>').join('');
-                methodeHTML = '<div class="bg-surface-800 border border-accent-primary/30 rounded-xl p-5 mb-6">' +
-                    '<h3 class="text-lg font-bold text-accent-primary mb-4">🎯 ' + data.methode.titre + '</h3>' +
+                const conseils = data.methode.conseils.map(c => '<li class="text-sm text-gray-600">• ' + c + '</li>').join('');
+                methodeHTML = '<div class="card-accent rounded-2xl p-6 mb-6">' +
+                    '<h3 class="text-lg font-bold text-accent-primary mb-4 flex items-center gap-2"><span class="text-2xl">🎯</span> ' + data.methode.titre + '</h3>' +
                     '<div class="grid md:grid-cols-2 gap-3 mb-4">' + etapes + '</div>' +
-                    '<div class="mt-4 pt-4 border-t border-surface-600">' +
-                    '<p class="text-sm font-medium text-gray-300 mb-2">💡 Conseils</p>' +
+                    '<div class="mt-4 pt-4 border-t-2 border-accent-primary/20">' +
+                    '<p class="text-sm font-semibold text-gray-700 mb-2">💡 Conseils</p>' +
                     '<ul class="space-y-1">' + conseils + '</ul></div></div>';
             }
 
             let legalHTML = '';
             if (data.legalInfo) {
-                legalHTML = '<div class="bg-red-500/10 border border-red-500/30 rounded-xl p-5 mb-6">' +
-                    '<p class="text-sm font-medium text-red-400 mb-2">⚖️ Point juridique important</p>' +
-                    '<p class="text-sm text-gray-300">' + data.legalInfo + '</p></div>';
+                legalHTML = '<div class="bg-red-50 border-2 border-red-200 rounded-2xl p-5 mb-6">' +
+                    '<p class="text-sm font-semibold text-red-600 mb-2 flex items-center gap-2"><span class="text-xl">⚖️</span> Point juridique important</p>' +
+                    '<p class="text-sm text-gray-700">' + data.legalInfo + '</p></div>';
             }
 
-            let souverainHTML = data.souverain ? 
-                '<div class="bg-gradient-to-br from-blue-900/20 to-blue-900/5 border border-blue-500/30 rounded-xl p-5">' +
-                '<p class="text-xs uppercase tracking-wider text-blue-400 mb-2 font-medium">🇫🇷 Souverain</p>' +
-                '<h3 class="text-xl font-bold text-gray-100 mb-1">' + data.souverain.nom + '</h3>' +
+            let souverainHTML = data.souverain ?
+                '<div class="bg-gradient-to-br from-blue-50 to-blue-100/50 border-2 border-blue-200 rounded-2xl p-5">' +
+                '<p class="text-xs uppercase tracking-wider text-blue-600 mb-2 font-semibold">🇫🇷 Souverain</p>' +
+                '<h3 class="text-xl font-bold text-gray-800 mb-1">' + data.souverain.nom + '</h3>' +
                 '<p class="text-sm text-gray-500 mb-3">' + data.souverain.ecosysteme + '</p>' +
-                '<p class="text-sm text-gray-300 mb-4">' + data.souverain.pourquoi + '</p>' +
-                '<div class="flex items-center gap-2 text-xs text-blue-400"><span>🔒</span><span>' + data.souverain.modeConfidentiel + '</span></div></div>' :
-                '<div class="bg-surface-700/30 border border-surface-600/50 rounded-xl p-5 flex items-center justify-center">' +
-                '<p class="text-sm text-gray-600 text-center">Pas d\'alternative souveraine identifiée</p></div>';
+                '<p class="text-sm text-gray-600 mb-4">' + data.souverain.pourquoi + '</p>' +
+                '<div class="flex items-center gap-2 text-xs text-blue-600 font-medium"><span>🔒</span><span>' + data.souverain.modeConfidentiel + '</span></div></div>' :
+                '<div class="bg-surface-100 border-2 border-surface-300 rounded-2xl p-5 flex items-center justify-center">' +
+                '<p class="text-sm text-gray-500 text-center">Pas d\'alternative souveraine identifiée</p></div>';
 
             decisionContent.innerHTML = '<div class="animate-in">' +
-                '<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">' +
-                '<div class="flex items-center gap-4"><span class="text-5xl">' + data.icon + '</span><div>' +
-                '<h2 class="text-2xl sm:text-3xl font-bold text-gray-100">' + besoin + '</h2>' +
-                '<p class="text-gray-400">' + data.description + '</p></div></div>' +
-                '<button onclick="startWorkflow(\'' + besoin.replace(/'/g, "\\'") + '\')" class="flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-accent-primary to-accent-secondary text-white font-medium hover:opacity-90 transition-opacity shrink-0">' +
-                '<span>🚀</span><span>Workflow guidé</span></button></div>' +
+                '<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">' +
+                '<div class="flex items-center gap-4"><span class="emoji-large">' + data.icon + '</span><div>' +
+                '<h2 class="text-2xl sm:text-3xl font-bold text-gray-800">' + besoin + '</h2>' +
+                '<p class="text-gray-600">' + data.description + '</p></div></div>' +
+                '<button onclick="startWorkflow(\'' + besoin.replace(/'/g, "\\'") + '\')" class="flex items-center gap-2 px-6 py-3 rounded-xl bg-gradient-to-r from-accent-primary to-accent-secondary text-white font-semibold hover:opacity-90 transition-opacity shrink-0 shadow-lg shadow-accent-primary/20">' +
+                '<span class="text-xl">🚀</span><span>Workflow guidé</span></button></div>' +
                 definitionsHTML +
                 '<div class="grid md:grid-cols-3 gap-4 mb-6">' +
-                '<div class="bg-gradient-to-br from-accent-primary/20 to-accent-primary/5 border border-accent-primary/30 rounded-xl p-5">' +
-                '<p class="text-xs uppercase tracking-wider text-accent-primary mb-2 font-medium">✦ Recommandé</p>' +
-                '<h3 class="text-xl font-bold text-gray-100 mb-1">' + data.principal.nom + '</h3>' +
+                '<div class="bg-gradient-to-br from-accent-primary/10 to-accent-primary/5 border-2 border-accent-primary/25 rounded-2xl p-5">' +
+                '<p class="text-xs uppercase tracking-wider text-accent-primary mb-2 font-semibold">✦ Recommandé</p>' +
+                '<h3 class="text-xl font-bold text-gray-800 mb-1">' + data.principal.nom + '</h3>' +
                 '<p class="text-sm text-gray-500 mb-3">' + data.principal.ecosysteme + '</p>' +
-                '<p class="text-sm text-gray-300 mb-4">' + data.principal.pourquoi + '</p>' +
-                '<div class="flex items-center gap-2 text-xs text-accent-secondary"><span>🔒</span><span>' + data.principal.modeConfidentiel + '</span></div></div>' +
-                '<div class="bg-surface-700/50 border border-surface-600 rounded-xl p-5">' +
-                '<p class="text-xs uppercase tracking-wider text-gray-500 mb-2 font-medium">Alternative</p>' +
-                '<h3 class="text-xl font-bold text-gray-100 mb-1">' + data.alternative.nom + '</h3>' +
+                '<p class="text-sm text-gray-600 mb-4">' + data.principal.pourquoi + '</p>' +
+                '<div class="flex items-center gap-2 text-xs text-accent-secondary font-medium"><span>🔒</span><span>' + data.principal.modeConfidentiel + '</span></div></div>' +
+                '<div class="card-section rounded-2xl p-5">' +
+                '<p class="text-xs uppercase tracking-wider text-gray-500 mb-2 font-semibold">Alternative</p>' +
+                '<h3 class="text-xl font-bold text-gray-800 mb-1">' + data.alternative.nom + '</h3>' +
                 '<p class="text-sm text-gray-500 mb-3">' + data.alternative.ecosysteme + '</p>' +
-                '<p class="text-sm text-gray-300 mb-4">' + data.alternative.pourquoi + '</p>' +
-                '<div class="flex items-center gap-2 text-xs text-gray-500"><span>🔒</span><span>' + data.alternative.modeConfidentiel + '</span></div></div>' +
+                '<p class="text-sm text-gray-600 mb-4">' + data.alternative.pourquoi + '</p>' +
+                '<div class="flex items-center gap-2 text-xs text-gray-500 font-medium"><span>🔒</span><span>' + data.alternative.modeConfidentiel + '</span></div></div>' +
                 souverainHTML + '</div>' +
                 methodeHTML + legalHTML +
-                '<div class="bg-amber-500/10 border border-amber-500/30 rounded-xl p-5 mb-6">' +
-                '<p class="text-sm font-medium text-amber-400 mb-2">⚠️ Quand éviter</p>' +
-                '<p class="text-sm text-gray-300">' + data.quandEviter + '</p></div>' +
+                '<div class="card-warning rounded-2xl p-5 mb-6">' +
+                '<p class="text-sm font-semibold text-amber-700 mb-2 flex items-center gap-2"><span class="text-xl">⚠️</span> Quand éviter</p>' +
+                '<p class="text-sm text-gray-700">' + data.quandEviter + '</p></div>' +
                 '<div class="grid md:grid-cols-2 gap-4 mb-6">' +
-                '<div class="bg-surface-700/50 rounded-xl p-5"><p class="text-sm font-medium text-green-400 mb-3">✓ Données acceptables</p>' +
-                '<ul class="space-y-1">' + data.donneesAcceptables.map(d => '<li class="text-sm text-gray-400">• ' + d + '</li>').join('') + '</ul></div>' +
-                '<div class="bg-surface-700/50 rounded-xl p-5"><p class="text-sm font-medium text-red-400 mb-3">✗ Données interdites</p>' +
-                '<ul class="space-y-1">' + data.donneesInterdites.map(d => '<li class="text-sm text-gray-400">• ' + d + '</li>').join('') + '</ul></div></div>' +
-                '<div class="bg-surface-800 border border-surface-600 rounded-xl p-5">' +
+                '<div class="bg-green-50 border-2 border-green-200 rounded-2xl p-5"><p class="text-sm font-semibold text-green-700 mb-3 flex items-center gap-2"><span class="text-lg">✓</span> Données acceptables</p>' +
+                '<ul class="space-y-2">' + data.donneesAcceptables.map(d => '<li class="text-sm text-gray-600">• ' + d + '</li>').join('') + '</ul></div>' +
+                '<div class="bg-red-50 border-2 border-red-200 rounded-2xl p-5"><p class="text-sm font-semibold text-red-600 mb-3 flex items-center gap-2"><span class="text-lg">✗</span> Données interdites</p>' +
+                '<ul class="space-y-2">' + data.donneesInterdites.map(d => '<li class="text-sm text-gray-600">• ' + d + '</li>').join('') + '</ul></div></div>' +
+                '<div class="card-section rounded-2xl p-6">' +
                 '<div class="flex items-center justify-between mb-4">' +
-                '<p class="text-sm font-medium text-gray-300">📝 Exemple de prompt RCTI</p>' +
-                '<span class="text-xs bg-accent-primary/20 text-accent-primary px-2 py-1 rounded">Niveau ' + data.promptExemple.niveau + '</span></div>' +
-                '<div class="space-y-3 font-mono text-sm">' +
-                '<div><span class="text-accent-primary font-bold">R</span><span class="text-gray-500">ôle :</span><p class="text-gray-300 mt-1 pl-4">' + data.promptExemple.role + '</p></div>' +
-                '<div><span class="text-accent-primary font-bold">C</span><span class="text-gray-500">ontexte :</span><p class="text-gray-300 mt-1 pl-4">' + data.promptExemple.contexte + '</p></div>' +
-                '<div><span class="text-accent-primary font-bold">T</span><span class="text-gray-500">âche :</span><p class="text-gray-300 mt-1 pl-4">' + data.promptExemple.tache + '</p></div>' +
-                '<div><span class="text-accent-primary font-bold">I</span><span class="text-gray-500">nstructions :</span><p class="text-gray-300 mt-1 pl-4">' + data.promptExemple.instructions + '</p></div></div>' +
-                '<button onclick="copyPrompt(\'' + besoin.replace(/'/g, "\\'") + '\')" class="mt-4 text-sm text-accent-secondary hover:text-accent-primary transition-colors">📋 Copier le prompt complet</button></div></div>';
+                '<p class="text-base font-semibold text-gray-700 flex items-center gap-2"><span class="text-xl">📝</span> Exemple de prompt RCTI</p>' +
+                '<span class="text-xs bg-accent-primary/15 text-accent-primary px-3 py-1.5 rounded-lg font-semibold">Niveau ' + data.promptExemple.niveau + '</span></div>' +
+                '<div class="space-y-4 font-mono text-sm bg-surface-100 rounded-xl p-5 border border-surface-300">' +
+                '<div><span class="text-accent-primary font-bold text-base">R</span><span class="text-gray-500">ôle :</span><p class="text-gray-700 mt-1 pl-4">' + data.promptExemple.role + '</p></div>' +
+                '<div><span class="text-accent-primary font-bold text-base">C</span><span class="text-gray-500">ontexte :</span><p class="text-gray-700 mt-1 pl-4">' + data.promptExemple.contexte + '</p></div>' +
+                '<div><span class="text-accent-primary font-bold text-base">T</span><span class="text-gray-500">âche :</span><p class="text-gray-700 mt-1 pl-4">' + data.promptExemple.tache + '</p></div>' +
+                '<div><span class="text-accent-primary font-bold text-base">I</span><span class="text-gray-500">nstructions :</span><p class="text-gray-700 mt-1 pl-4">' + data.promptExemple.instructions + '</p></div></div>' +
+                '<button onclick="copyPrompt(\'' + besoin.replace(/'/g, "\\'") + '\')" class="mt-5 text-sm text-accent-primary hover:text-accent-secondary transition-colors font-semibold flex items-center gap-2"><span class="text-lg">📋</span> Copier le prompt complet</button></div></div>';
 
             mainView.classList.add('hidden');
             glossaireView.classList.add('hidden');
@@ -370,11 +395,11 @@
                 let stateClass = '';
                 if (index < currentWorkflowStep || completedSteps.includes(index)) stateClass = 'completed';
                 else if (index === currentWorkflowStep) stateClass = 'active';
-                return '<div class="stepper-item flex flex-col items-center min-w-[80px] ' + stateClass + '" data-step="' + index + '">' +
+                return '<div class="stepper-item flex flex-col items-center min-w-[90px] ' + stateClass + '" data-step="' + index + '">' +
                     '<div class="stepper-circle cursor-pointer" onclick="goToStep(' + index + ')">' +
                     (completedSteps.includes(index) ? '✓' : etape.numero) +
                     '</div>' +
-                    '<span class="text-xs mt-2 text-center ' + (index === currentWorkflowStep ? 'text-accent-primary font-medium' : 'text-gray-500') + '">' + etape.titre + '</span>' +
+                    '<span class="text-sm mt-3 text-center font-medium ' + (index === currentWorkflowStep ? 'text-accent-primary' : 'text-gray-500') + '">' + etape.titre + '</span>' +
                     '</div>';
             }).join('');
         }
@@ -386,38 +411,38 @@
 
             let alerteHTML = '';
             if (etape.alerte) {
-                alerteHTML = '<div class="bg-amber-500/10 border border-amber-500/30 rounded-xl p-4 mb-6">' +
-                    '<p class="text-sm text-amber-400 flex items-start gap-2"><span>⚠️</span><span>' + etape.alerte + '</span></p></div>';
+                alerteHTML = '<div class="card-warning rounded-xl p-4 mb-6">' +
+                    '<p class="text-sm text-amber-700 flex items-start gap-2"><span class="text-xl">⚠️</span><span>' + etape.alerte + '</span></p></div>';
             }
 
             let contextHTML = '';
             if (currentWorkflowStep === 1) {
-                contextHTML = '<div class="bg-accent-primary/10 border border-accent-primary/30 rounded-xl p-4 mb-6">' +
-                    '<p class="text-xs text-accent-primary uppercase tracking-wider mb-2 font-medium">Outil recommandé pour ce besoin</p>' +
-                    '<p class="text-lg font-bold text-gray-100">' + besoinData.principal.nom + '</p>' +
-                    '<p class="text-sm text-gray-400">' + besoinData.principal.pourquoi + '</p>' +
-                    '<p class="text-xs text-accent-secondary mt-2">🔒 ' + besoinData.principal.modeConfidentiel + '</p></div>';
+                contextHTML = '<div class="card-accent rounded-xl p-5 mb-6">' +
+                    '<p class="text-xs text-accent-primary uppercase tracking-wider mb-2 font-semibold">Outil recommandé pour ce besoin</p>' +
+                    '<p class="text-lg font-bold text-gray-800">' + besoinData.principal.nom + '</p>' +
+                    '<p class="text-sm text-gray-600">' + besoinData.principal.pourquoi + '</p>' +
+                    '<p class="text-xs text-accent-secondary mt-3 font-medium">🔒 ' + besoinData.principal.modeConfidentiel + '</p></div>';
             }
 
             content.innerHTML = '<div class="animate-in">' +
-                '<div class="flex items-center gap-4 mb-6">' +
-                '<span class="text-4xl">' + etape.icon + '</span>' +
-                '<div><h3 class="text-2xl font-bold text-gray-100">Étape ' + etape.numero + ' — ' + etape.titre + '</h3>' +
-                '<p class="text-gray-400">' + etape.description + '</p></div></div>' +
+                '<div class="flex items-center gap-4 mb-8">' +
+                '<span class="emoji-large">' + etape.icon + '</span>' +
+                '<div><h3 class="text-2xl font-bold text-gray-800">Étape ' + etape.numero + ' — ' + etape.titre + '</h3>' +
+                '<p class="text-gray-600 text-lg">' + etape.description + '</p></div></div>' +
                 alerteHTML + contextHTML +
                 '<div class="grid md:grid-cols-2 gap-6 mb-6">' +
-                '<div class="bg-surface-700/50 rounded-xl p-5">' +
-                '<h4 class="text-sm font-medium text-accent-primary mb-3 flex items-center gap-2"><span>📋</span>Consignes</h4>' +
-                '<ul class="space-y-2">' + etape.consignes.map(c => '<li class="text-sm text-gray-300 flex items-start gap-2"><span class="text-accent-primary">•</span>' + c + '</li>').join('') + '</ul></div>' +
-                '<div class="bg-surface-700/50 rounded-xl p-5">' +
-                '<h4 class="text-sm font-medium text-accent-secondary mb-3 flex items-center gap-2"><span>❓</span>Questions à se poser</h4>' +
-                '<ul class="space-y-2">' + etape.questions.map(q => '<li class="text-sm text-gray-300 flex items-start gap-2"><span class="text-accent-secondary">•</span>' + q + '</li>').join('') + '</ul></div></div>' +
-                '<div class="bg-surface-800 border border-surface-600 rounded-xl p-5">' +
-                '<h4 class="text-sm font-medium text-green-400 mb-4 flex items-center gap-2"><span>✓</span>Checklist de validation</h4>' +
+                '<div class="bg-surface-100 border-2 border-surface-300 rounded-2xl p-5">' +
+                '<h4 class="text-sm font-semibold text-accent-primary mb-4 flex items-center gap-2"><span class="text-xl">📋</span>Consignes</h4>' +
+                '<ul class="space-y-3">' + etape.consignes.map(c => '<li class="text-sm text-gray-700 flex items-start gap-2"><span class="text-accent-primary font-bold">•</span>' + c + '</li>').join('') + '</ul></div>' +
+                '<div class="bg-surface-100 border-2 border-surface-300 rounded-2xl p-5">' +
+                '<h4 class="text-sm font-semibold text-accent-secondary mb-4 flex items-center gap-2"><span class="text-xl">❓</span>Questions à se poser</h4>' +
+                '<ul class="space-y-3">' + etape.questions.map(q => '<li class="text-sm text-gray-700 flex items-start gap-2"><span class="text-accent-secondary font-bold">•</span>' + q + '</li>').join('') + '</ul></div></div>' +
+                '<div class="bg-green-50 border-2 border-green-200 rounded-2xl p-5">' +
+                '<h4 class="text-sm font-semibold text-green-700 mb-4 flex items-center gap-2"><span class="text-xl">✓</span>Checklist de validation</h4>' +
                 '<div class="space-y-2">' + etape.checklist.map((item, i) =>
-                    '<label class="checklist-item flex items-center gap-3 p-2 rounded-lg cursor-pointer">' +
-                    '<input type="checkbox" class="w-5 h-5 rounded border-surface-600 text-green-500 focus:ring-green-500 focus:ring-offset-0 bg-surface-700" onchange="updateChecklist(' + currentWorkflowStep + ')">' +
-                    '<span class="text-sm text-gray-300">' + item + '</span></label>'
+                    '<label class="checklist-item flex items-center gap-3 p-3 rounded-xl cursor-pointer bg-white border border-green-100">' +
+                    '<input type="checkbox" class="w-5 h-5 rounded border-green-300 text-green-600 focus:ring-green-500 focus:ring-offset-0 bg-white" onchange="updateChecklist(' + currentWorkflowStep + ')">' +
+                    '<span class="text-sm text-gray-700">' + item + '</span></label>'
                 ).join('') + '</div></div></div>';
 
             workflowPrev.disabled = currentWorkflowStep === 0;
