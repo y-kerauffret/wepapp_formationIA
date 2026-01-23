@@ -65,6 +65,27 @@
         .animate-in { animation: fadeInUp 0.5s ease forwards; opacity: 0; }
         .glossaire-btn { transition: all 0.2s ease; }
         .glossaire-btn:hover { background: rgba(99, 102, 241, 0.1); }
+        .stepper-item { position: relative; }
+        .stepper-item::after {
+            content: ''; position: absolute; top: 20px; left: 40px; right: -50%; height: 2px;
+            background: linear-gradient(90deg, rgba(99, 102, 241, 0.3), transparent);
+        }
+        .stepper-item:last-child::after { display: none; }
+        .stepper-item.active .stepper-circle { background: #6366f1; color: white; box-shadow: 0 0 20px rgba(99, 102, 241, 0.5); }
+        .stepper-item.completed .stepper-circle { background: #22c55e; color: white; }
+        .stepper-item.completed::after { background: linear-gradient(90deg, #22c55e, rgba(99, 102, 241, 0.3)); }
+        .stepper-circle {
+            width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            background: rgba(99, 102, 241, 0.2); color: #6366f1; font-weight: bold; transition: all 0.3s ease;
+            border: 2px solid rgba(99, 102, 241, 0.3); position: relative; z-index: 1;
+        }
+        .workflow-card {
+            background: linear-gradient(135deg, rgba(26, 26, 36, 0.9) 0%, rgba(18, 18, 26, 0.95) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+        }
+        .checklist-item { transition: all 0.2s ease; }
+        .checklist-item:hover { background: rgba(99, 102, 241, 0.05); }
+        .checklist-item input:checked + span { color: #22c55e; text-decoration: line-through; }
     </style>
 </head>
 <body class="bg-surface-900 text-gray-100 bg-grid">
@@ -128,19 +149,58 @@
                 <div id="glossaire-content" class="space-y-4"></div>
             </div>
         </div>
+
+        <div id="workflow-view" class="hidden">
+            <button id="workflow-back" class="flex items-center gap-2 text-gray-400 hover:text-gray-200 transition-colors mb-8 group">
+                <span class="transform group-hover:-translate-x-1 transition-transform">←</span>
+                <span>Retour à la fiche</span>
+            </button>
+            <div class="max-w-5xl mx-auto">
+                <div id="workflow-header" class="mb-8">
+                    <h2 class="text-2xl sm:text-3xl font-bold text-gray-100 mb-2">Workflow guidé</h2>
+                    <p id="workflow-besoin" class="text-gray-400"></p>
+                </div>
+
+                <div id="stepper" class="flex justify-between mb-12 overflow-x-auto pb-4"></div>
+
+                <div id="workflow-content" class="workflow-card rounded-2xl p-6 sm:p-8"></div>
+
+                <div class="flex justify-between mt-8">
+                    <button id="workflow-prev" class="px-6 py-3 rounded-lg bg-surface-700 text-gray-300 hover:bg-surface-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed">
+                        ← Précédent
+                    </button>
+                    <button id="workflow-next" class="px-6 py-3 rounded-lg bg-accent-primary text-white hover:bg-accent-primary/80 transition-colors">
+                        Suivant →
+                    </button>
+                </div>
+            </div>
+            <footer class="max-w-5xl mx-auto mt-16 pt-8 border-t border-surface-600">
+                <div class="flex items-start gap-3 text-sm text-gray-500">
+                    <span class="text-accent-warning">⚠️</span>
+                    <p><span class="text-gray-400 font-medium">Rappel permanent :</span> L'IA peut produire des erreurs (hallucinations), des biais, et n'est jamais déterministe. <span class="text-gray-400">La responsabilité finale reste humaine.</span></p>
+                </div>
+            </footer>
+        </div>
     </div>
 
     <script>
         let appData = null;
+        let currentWorkflowStep = 0;
+        let currentWorkflowBesoin = null;
+        let completedSteps = [];
         const mainView = document.getElementById('main-view');
         const decisionView = document.getElementById('decision-view');
         const glossaireView = document.getElementById('glossaire-view');
+        const workflowView = document.getElementById('workflow-view');
         const decisionContent = document.getElementById('decision-content');
         const glossaireContent = document.getElementById('glossaire-content');
         const tilesGrid = document.getElementById('tiles-grid');
         const backButton = document.getElementById('back-button');
         const glossaireToggle = document.getElementById('glossaire-toggle');
         const glossaireBack = document.getElementById('glossaire-back');
+        const workflowBack = document.getElementById('workflow-back');
+        const workflowPrev = document.getElementById('workflow-prev');
+        const workflowNext = document.getElementById('workflow-next');
 
         async function loadData() {
             try {
@@ -236,9 +296,12 @@
                 '<p class="text-sm text-gray-600 text-center">Pas d\'alternative souveraine identifiée</p></div>';
 
             decisionContent.innerHTML = '<div class="animate-in">' +
-                '<div class="flex items-center gap-4 mb-6"><span class="text-5xl">' + data.icon + '</span><div>' +
+                '<div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">' +
+                '<div class="flex items-center gap-4"><span class="text-5xl">' + data.icon + '</span><div>' +
                 '<h2 class="text-2xl sm:text-3xl font-bold text-gray-100">' + besoin + '</h2>' +
                 '<p class="text-gray-400">' + data.description + '</p></div></div>' +
+                '<button onclick="startWorkflow(\'' + besoin.replace(/'/g, "\\'") + '\')" class="flex items-center gap-2 px-5 py-3 rounded-xl bg-gradient-to-r from-accent-primary to-accent-secondary text-white font-medium hover:opacity-90 transition-opacity shrink-0">' +
+                '<span>🚀</span><span>Workflow guidé</span></button></div>' +
                 definitionsHTML +
                 '<div class="grid md:grid-cols-3 gap-4 mb-6">' +
                 '<div class="bg-gradient-to-br from-accent-primary/20 to-accent-primary/5 border border-accent-primary/30 rounded-xl p-5">' +
@@ -286,9 +349,128 @@
             navigator.clipboard.writeText(prompt).then(() => alert('Prompt copié dans le presse-papier !'));
         }
 
+        function startWorkflow(besoin) {
+            currentWorkflowBesoin = besoin;
+            currentWorkflowStep = 0;
+            completedSteps = [];
+            const data = appData.recommandations[besoin];
+            document.getElementById('workflow-besoin').textContent = data.icon + ' ' + besoin + ' — ' + data.description;
+            renderStepper();
+            renderWorkflowStep();
+            mainView.classList.add('hidden');
+            decisionView.classList.add('hidden');
+            glossaireView.classList.add('hidden');
+            workflowView.classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        function renderStepper() {
+            const stepper = document.getElementById('stepper');
+            stepper.innerHTML = appData.workflow.etapes.map((etape, index) => {
+                let stateClass = '';
+                if (index < currentWorkflowStep || completedSteps.includes(index)) stateClass = 'completed';
+                else if (index === currentWorkflowStep) stateClass = 'active';
+                return '<div class="stepper-item flex flex-col items-center min-w-[80px] ' + stateClass + '" data-step="' + index + '">' +
+                    '<div class="stepper-circle cursor-pointer" onclick="goToStep(' + index + ')">' +
+                    (completedSteps.includes(index) ? '✓' : etape.numero) +
+                    '</div>' +
+                    '<span class="text-xs mt-2 text-center ' + (index === currentWorkflowStep ? 'text-accent-primary font-medium' : 'text-gray-500') + '">' + etape.titre + '</span>' +
+                    '</div>';
+            }).join('');
+        }
+
+        function renderWorkflowStep() {
+            const etape = appData.workflow.etapes[currentWorkflowStep];
+            const besoinData = appData.recommandations[currentWorkflowBesoin];
+            const content = document.getElementById('workflow-content');
+
+            let alerteHTML = '';
+            if (etape.alerte) {
+                alerteHTML = '<div class="bg-amber-500/10 border border-amber-500/30 rounded-xl p-4 mb-6">' +
+                    '<p class="text-sm text-amber-400 flex items-start gap-2"><span>⚠️</span><span>' + etape.alerte + '</span></p></div>';
+            }
+
+            let contextHTML = '';
+            if (currentWorkflowStep === 1) {
+                contextHTML = '<div class="bg-accent-primary/10 border border-accent-primary/30 rounded-xl p-4 mb-6">' +
+                    '<p class="text-xs text-accent-primary uppercase tracking-wider mb-2 font-medium">Outil recommandé pour ce besoin</p>' +
+                    '<p class="text-lg font-bold text-gray-100">' + besoinData.principal.nom + '</p>' +
+                    '<p class="text-sm text-gray-400">' + besoinData.principal.pourquoi + '</p>' +
+                    '<p class="text-xs text-accent-secondary mt-2">🔒 ' + besoinData.principal.modeConfidentiel + '</p></div>';
+            }
+
+            content.innerHTML = '<div class="animate-in">' +
+                '<div class="flex items-center gap-4 mb-6">' +
+                '<span class="text-4xl">' + etape.icon + '</span>' +
+                '<div><h3 class="text-2xl font-bold text-gray-100">Étape ' + etape.numero + ' — ' + etape.titre + '</h3>' +
+                '<p class="text-gray-400">' + etape.description + '</p></div></div>' +
+                alerteHTML + contextHTML +
+                '<div class="grid md:grid-cols-2 gap-6 mb-6">' +
+                '<div class="bg-surface-700/50 rounded-xl p-5">' +
+                '<h4 class="text-sm font-medium text-accent-primary mb-3 flex items-center gap-2"><span>📋</span>Consignes</h4>' +
+                '<ul class="space-y-2">' + etape.consignes.map(c => '<li class="text-sm text-gray-300 flex items-start gap-2"><span class="text-accent-primary">•</span>' + c + '</li>').join('') + '</ul></div>' +
+                '<div class="bg-surface-700/50 rounded-xl p-5">' +
+                '<h4 class="text-sm font-medium text-accent-secondary mb-3 flex items-center gap-2"><span>❓</span>Questions à se poser</h4>' +
+                '<ul class="space-y-2">' + etape.questions.map(q => '<li class="text-sm text-gray-300 flex items-start gap-2"><span class="text-accent-secondary">•</span>' + q + '</li>').join('') + '</ul></div></div>' +
+                '<div class="bg-surface-800 border border-surface-600 rounded-xl p-5">' +
+                '<h4 class="text-sm font-medium text-green-400 mb-4 flex items-center gap-2"><span>✓</span>Checklist de validation</h4>' +
+                '<div class="space-y-2">' + etape.checklist.map((item, i) =>
+                    '<label class="checklist-item flex items-center gap-3 p-2 rounded-lg cursor-pointer">' +
+                    '<input type="checkbox" class="w-5 h-5 rounded border-surface-600 text-green-500 focus:ring-green-500 focus:ring-offset-0 bg-surface-700" onchange="updateChecklist(' + currentWorkflowStep + ')">' +
+                    '<span class="text-sm text-gray-300">' + item + '</span></label>'
+                ).join('') + '</div></div></div>';
+
+            workflowPrev.disabled = currentWorkflowStep === 0;
+            workflowNext.textContent = currentWorkflowStep === appData.workflow.etapes.length - 1 ? 'Terminer ✓' : 'Suivant →';
+        }
+
+        function goToStep(index) {
+            if (index <= currentWorkflowStep || completedSteps.includes(index - 1) || index === currentWorkflowStep + 1) {
+                currentWorkflowStep = index;
+                renderStepper();
+                renderWorkflowStep();
+                window.scrollTo(0, 0);
+            }
+        }
+
+        function updateChecklist(step) {
+            const checkboxes = document.querySelectorAll('#workflow-content input[type="checkbox"]');
+            const allChecked = Array.from(checkboxes).every(cb => cb.checked);
+            if (allChecked && !completedSteps.includes(step)) {
+                completedSteps.push(step);
+                renderStepper();
+            }
+        }
+
+        function nextStep() {
+            if (currentWorkflowStep < appData.workflow.etapes.length - 1) {
+                currentWorkflowStep++;
+                renderStepper();
+                renderWorkflowStep();
+                window.scrollTo(0, 0);
+            } else {
+                alert('Bravo ! Vous avez terminé le workflow. Pensez à capitaliser sur cette expérience.');
+                workflowView.classList.add('hidden');
+                decisionView.classList.remove('hidden');
+                window.scrollTo(0, 0);
+            }
+        }
+
+        function prevStep() {
+            if (currentWorkflowStep > 0) {
+                currentWorkflowStep--;
+                renderStepper();
+                renderWorkflowStep();
+                window.scrollTo(0, 0);
+            }
+        }
+
         backButton.addEventListener('click', () => { decisionView.classList.add('hidden'); mainView.classList.remove('hidden'); window.scrollTo(0, 0); });
-        glossaireToggle.addEventListener('click', () => { mainView.classList.add('hidden'); decisionView.classList.add('hidden'); glossaireView.classList.remove('hidden'); window.scrollTo(0, 0); });
+        glossaireToggle.addEventListener('click', () => { mainView.classList.add('hidden'); decisionView.classList.add('hidden'); glossaireView.classList.remove('hidden'); workflowView.classList.add('hidden'); window.scrollTo(0, 0); });
         glossaireBack.addEventListener('click', () => { glossaireView.classList.add('hidden'); mainView.classList.remove('hidden'); window.scrollTo(0, 0); });
+        workflowBack.addEventListener('click', () => { workflowView.classList.add('hidden'); decisionView.classList.remove('hidden'); window.scrollTo(0, 0); });
+        workflowPrev.addEventListener('click', prevStep);
+        workflowNext.addEventListener('click', nextStep);
         loadData();
     </script>
 </body>

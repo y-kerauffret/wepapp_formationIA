@@ -1,4 +1,154 @@
 {
+  "workflow": {
+    "etapes": [
+      {
+        "numero": 1,
+        "titre": "Préparer",
+        "icon": "🎯",
+        "description": "Clarifier l'objectif, identifier les données, définir le cadre",
+        "consignes": [
+          "Formulez votre objectif en une phrase claire",
+          "Identifiez les données nécessaires et leur niveau de sensibilité",
+          "Définissez le format de sortie attendu",
+          "Estimez le temps que vous êtes prêt à investir"
+        ],
+        "questions": [
+          "Quel est mon objectif précis ?",
+          "Quelles données vais-je utiliser ? Sont-elles sensibles ?",
+          "Quel format de sortie j'attends ?",
+          "Ai-je besoin d'un mode confidentiel ?"
+        ],
+        "checklist": [
+          "Objectif clairement défini",
+          "Données identifiées et classifiées",
+          "Format de sortie déterminé",
+          "Niveau de confidentialité vérifié"
+        ]
+      },
+      {
+        "numero": 2,
+        "titre": "Produire",
+        "icon": "⚡",
+        "description": "Choisir l'outil, structurer le prompt, lancer la génération",
+        "consignes": [
+          "Sélectionnez l'outil adapté à votre besoin",
+          "Activez le mode confidentiel si nécessaire",
+          "Structurez votre prompt en RCTI (Rôle, Contexte, Tâche, Instructions)",
+          "Lancez la génération et observez le résultat"
+        ],
+        "questions": [
+          "L'outil choisi est-il adapté à mon besoin ?",
+          "Mon prompt est-il suffisamment précis ?",
+          "Ai-je activé le mode confidentiel si nécessaire ?",
+          "Le premier résultat répond-il partiellement à mon besoin ?"
+        ],
+        "checklist": [
+          "Outil approprié sélectionné",
+          "Mode confidentiel activé si besoin",
+          "Prompt structuré en RCTI",
+          "Première génération effectuée"
+        ]
+      },
+      {
+        "numero": 3,
+        "titre": "Vérifier",
+        "icon": "🔍",
+        "description": "Détecter les biais, erreurs et hallucinations",
+        "consignes": [
+          "Relisez le résultat avec un regard critique",
+          "Vérifiez les faits, chiffres et citations",
+          "Identifiez les formulations trop affirmatives sans source",
+          "Croisez avec d'autres sources si nécessaire"
+        ],
+        "questions": [
+          "Les informations sont-elles factuellement correctes ?",
+          "Y a-t-il des affirmations non vérifiables ?",
+          "Le ton est-il adapté à mon contexte ?",
+          "Détecte-t-on des biais ou généralisations ?"
+        ],
+        "checklist": [
+          "Faits et chiffres vérifiés",
+          "Sources croisées si nécessaire",
+          "Biais potentiels identifiés",
+          "Hallucinations détectées et corrigées"
+        ],
+        "alerte": "L'IA peut inventer des citations, des lois, des statistiques. Vérifiez TOUJOURS les éléments factuels."
+      },
+      {
+        "numero": 4,
+        "titre": "Ajuster",
+        "icon": "🔧",
+        "description": "Itérer, affiner, humaniser le résultat",
+        "consignes": [
+          "Demandez des modifications ciblées à l'IA",
+          "Reformulez votre prompt si le résultat est trop éloigné",
+          "Ajoutez votre touche personnelle et votre expertise métier",
+          "N'hésitez pas à faire plusieurs itérations"
+        ],
+        "questions": [
+          "Quels éléments dois-je faire modifier ?",
+          "Le résultat reflète-t-il mon expertise métier ?",
+          "Le ton et le style sont-ils appropriés ?",
+          "Ai-je besoin d'une nouvelle itération ?"
+        ],
+        "checklist": [
+          "Modifications demandées et intégrées",
+          "Touche personnelle ajoutée",
+          "Ton et style validés",
+          "Résultat satisfaisant obtenu"
+        ]
+      },
+      {
+        "numero": 5,
+        "titre": "Diffuser",
+        "icon": "📤",
+        "description": "Finaliser le format, assurer la traçabilité, valider la diffusion",
+        "consignes": [
+          "Mettez en forme le document final",
+          "Documentez l'utilisation de l'IA si nécessaire",
+          "Validez avec les parties prenantes si requis",
+          "Choisissez le canal de diffusion approprié"
+        ],
+        "questions": [
+          "Le format est-il adapté au destinataire ?",
+          "Dois-je mentionner l'utilisation de l'IA ?",
+          "Qui doit valider avant diffusion ?",
+          "La traçabilité est-elle assurée ?"
+        ],
+        "checklist": [
+          "Format final validé",
+          "Traçabilité documentée si requis",
+          "Validation hiérarchique obtenue si nécessaire",
+          "Canal de diffusion choisi"
+        ],
+        "alerte": "Dans le secteur public, la traçabilité de l'usage de l'IA peut être requise. Documentez vos pratiques."
+      },
+      {
+        "numero": 6,
+        "titre": "Capitaliser",
+        "icon": "💎",
+        "description": "Sauvegarder le prompt, documenter la méthode, partager les apprentissages",
+        "consignes": [
+          "Sauvegardez le prompt qui a bien fonctionné",
+          "Notez ce qui a marché et ce qui n'a pas marché",
+          "Partagez vos bonnes pratiques avec vos collègues",
+          "Créez un GPT personnalisé si le besoin est récurrent"
+        ],
+        "questions": [
+          "Ce prompt mérite-t-il d'être sauvegardé ?",
+          "Qu'ai-je appris de cette interaction ?",
+          "Puis-je partager cette méthode avec mon équipe ?",
+          "Ce besoin est-il récurrent (→ GPT personnalisé) ?"
+        ],
+        "checklist": [
+          "Prompt efficace sauvegardé",
+          "Retour d'expérience documenté",
+          "Bonnes pratiques partagées",
+          "Besoin récurrent identifié pour automatisation"
+        ]
+      }
+    ]
+  },
   "glossaire": {
     "RAG": {
       "terme": "RAG (Retrieval-Augmented Generation)",
