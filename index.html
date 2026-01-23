@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Arbre de décision des outils IA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'display': ['Space Grotesk', 'sans-serif'],
+                        'mono': ['JetBrains Mono', 'monospace'],
+                    },
+                    colors: {
+                        'surface': {
+                            '900': '#0a0a0f',
+                            '800': '#12121a',
+                            '700': '#1a1a24',
+                            '600': '#24242f',
+                        },
+                        'accent': {
+                            'primary': '#6366f1',
+                            'secondary': '#22d3ee',
+                            'warning': '#f59e0b',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { font-family: 'Space Grotesk', sans-serif; }
+        body {
+            background: radial-gradient(ellipse at top, #12121a 0%, #0a0a0f 50%);
+            min-height: 100vh;
+        }
+        .bg-grid {
+            background-image: linear-gradient(rgba(99, 102, 241, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(99, 102, 241, 0.03) 1px, transparent 1px);
+            background-size: 50px 50px;
+        }
+        .profile-btn { transition: all 0.2s ease; border: 1px solid transparent; }
+        .profile-btn:hover { border-color: rgba(99, 102, 241, 0.3); background: rgba(99, 102, 241, 0.1); }
+        .profile-btn.active { border-color: #6366f1; background: rgba(99, 102, 241, 0.15); box-shadow: 0 0 20px rgba(99, 102, 241, 0.2); }
+        .tile {
+            background: linear-gradient(135deg, rgba(26, 26, 36, 0.8) 0%, rgba(18, 18, 26, 0.9) 100%);
+            border: 1px solid rgba(99, 102, 241, 0.1);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative; overflow: hidden;
+        }
+        .tile::before {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: linear-gradient(90deg, transparent, #6366f1, transparent);
+            opacity: 0; transition: opacity 0.3s ease;
+        }
+        .tile:hover { transform: translateY(-4px); border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3), 0 0 30px rgba(99, 102, 241, 0.1); }
+        .tile:hover::before { opacity: 1; }
+        .tile:active { transform: translateY(-2px); }
+        .tile-icon { font-size: 2rem; transition: transform 0.3s ease; }
+        .tile:hover .tile-icon { transform: scale(1.1); }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        .animate-in { animation: fadeInUp 0.5s ease forwards; opacity: 0; }
+        .glossaire-btn { transition: all 0.2s ease; }
+        .glossaire-btn:hover { background: rgba(99, 102, 241, 0.1); }
+    </style>
+</head>
+<body class="bg-surface-900 text-gray-100 bg-grid">
+    <div class="min-h-screen px-4 py-8 md:px-8 lg:px-16">
+        
+        <div id="main-view">
+            <header class="max-w-6xl mx-auto mb-12 animate-in" style="animation-delay: 0.1s;">
+                <div class="flex items-center justify-between mb-4 flex-wrap gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-accent-primary to-accent-secondary flex items-center justify-center">
+                            <span class="text-xl">🧭</span>
+                        </div>
+                        <h1 class="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">
+                            Arbre de décision des outils <span class="text-accent-primary">IA</span>
+                        </h1>
+                    </div>
+                    <button id="glossaire-toggle" class="glossaire-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-400 border border-surface-600">
+                        📖 Glossaire
+                    </button>
+                </div>
+                <p class="text-gray-400 text-lg max-w-2xl">
+                    Apprendre à <span class="text-gray-200 font-medium">penser l'IA</span> avant de l'utiliser. Un outil de raisonnement, pas un catalogue.
+                </p>
+            </header>
+
+            <section class="max-w-6xl mx-auto mb-12 animate-in" style="animation-delay: 0.2s;">
+                <p class="text-sm text-gray-500 uppercase tracking-wider mb-4 font-medium">Votre profil</p>
+                <div class="flex flex-wrap gap-3">
+                    <button class="profile-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-300" data-profile="agent">👤 Agent administratif</button>
+                    <button class="profile-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-300" data-profile="cadre">👔 Cadre / Chef de service</button>
+                    <button class="profile-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-300" data-profile="direction">🏛️ Direction générale</button>
+                    <button class="profile-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-300" data-profile="elu">🎖️ Élu</button>
+                    <button class="profile-btn px-4 py-2 rounded-lg text-sm font-medium text-gray-300" data-profile="formateur">🎓 Formateur <span class="text-accent-secondary text-xs ml-1">(mode démo)</span></button>
+                </div>
+            </section>
+
+            <section class="max-w-6xl mx-auto animate-in" style="animation-delay: 0.3s;">
+                <p class="text-sm text-gray-500 uppercase tracking-wider mb-6 font-medium">Quel est votre besoin ?</p>
+                <div id="tiles-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4"></div>
+            </section>
+
+            <footer class="max-w-6xl mx-auto mt-16 pt-8 border-t border-surface-600 animate-in" style="animation-delay: 0.4s;">
+                <div class="flex items-start gap-3 text-sm text-gray-500">
+                    <span class="text-accent-warning">⚠️</span>
+                    <p><span class="text-gray-400 font-medium">Rappel permanent :</span> L'IA peut produire des erreurs (hallucinations), des biais, et n'est jamais déterministe. <span class="text-gray-400">La responsabilité finale reste humaine.</span></p>
+                </div>
+            </footer>
+        </div>
+
+        <div id="decision-view" class="hidden">
+            <button id="back-button" class="flex items-center gap-2 text-gray-400 hover:text-gray-200 transition-colors mb-8 group">
+                <span class="transform group-hover:-translate-x-1 transition-transform">←</span>
+                <span>Retour aux besoins</span>
+            </button>
+            <div id="decision-content" class="max-w-4xl mx-auto"></div>
+            <footer class="max-w-4xl mx-auto mt-16 pt-8 border-t border-surface-600">
+                <div class="flex items-start gap-3 text-sm text-gray-500">
+                    <span class="text-accent-warning">⚠️</span>
+                    <p><span class="text-gray-400 font-medium">Rappel permanent :</span> L'IA peut produire des erreurs (hallucinations), des biais, et n'est jamais déterministe. <span class="text-gray-400">La responsabilité finale reste humaine.</span></p>
+                </div>
+            </footer>
+        </div>
+
+        <div id="glossaire-view" class="hidden">
+            <button id="glossaire-back" class="flex items-center gap-2 text-gray-400 hover:text-gray-200 transition-colors mb-8 group">
+                <span class="transform group-hover:-translate-x-1 transition-transform">←</span>
+                <span>Retour aux besoins</span>
+            </button>
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-gray-100 mb-2">📖 Glossaire</h2>
+                <p class="text-gray-400 mb-8">Les termes techniques expliqués simplement</p>
+                <div id="glossaire-content" class="space-y-4"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let appData = null;
+        let selectedProfile = null;
+        const mainView = document.getElementById('main-view');
+        const decisionView = document.getElementById('decision-view');
+        const glossaireView = document.getElementById('glossaire-view');
+        const decisionContent = document.getElementById('decision-content');
+        const glossaireContent = document.getElementById('glossaire-content');
+        const tilesGrid = document.getElementById('tiles-grid');
+        const backButton = document.getElementById('back-button');
+        const glossaireToggle = document.getElementById('glossaire-toggle');
+        const glossaireBack = document.getElementById('glossaire-back');
+
+        async function loadData() {
+            try {
+                const response = await fetch('data.json');
+                appData = await response.json();
+                renderTiles();
+                renderGlossaire();
+            } catch (error) {
+                console.error('Erreur de chargement des données:', error);
+                tilesGrid.innerHTML = '<p class="text-red-400 col-span-full">Erreur de chargement. Vérifiez que data.json est présent dans le même dossier.</p>';
+            }
+        }
+
+        function renderTiles() {
+            const besoins = Object.keys(appData.recommandations);
+            tilesGrid.innerHTML = besoins.map(besoin => {
+                const data = appData.recommandations[besoin];
+                return '<button class="tile rounded-xl p-5 text-left cursor-pointer group" data-besoin="' + besoin + '">' +
+                    '<span class="tile-icon block mb-3">' + data.icon + '</span>' +
+                    '<h3 class="font-semibold text-gray-100 mb-1">' + besoin + '</h3>' +
+                    '<p class="text-sm text-gray-500 group-hover:text-gray-400 transition-colors">' + data.description + '</p>' +
+                    '</button>';
+            }).join('');
+            document.querySelectorAll('.tile').forEach(tile => {
+                tile.addEventListener('click', () => showDecision(tile.dataset.besoin));
+            });
+        }
+
+        function renderGlossaire() {
+            const termes = Object.keys(appData.glossaire);
+            glossaireContent.innerHTML = termes.map(key => {
+                const item = appData.glossaire[key];
+                return '<div class="bg-surface-700/50 border border-surface-600 rounded-xl p-5">' +
+                    '<h3 class="text-lg font-bold text-accent-primary mb-2">' + item.terme + '</h3>' +
+                    '<p class="text-gray-300 mb-3">' + item.definition + '</p>' +
+                    '<div class="bg-surface-800 rounded-lg p-3">' +
+                    '<p class="text-xs text-gray-500 uppercase mb-1">Exemple</p>' +
+                    '<p class="text-sm text-gray-400">' + item.exemple + '</p>' +
+                    '</div></div>';
+            }).join('');
+        }
+
+        function showDecision(besoin) {
+            const data = appData.recommandations[besoin];
+            if (!data) { alert('Données non disponibles.'); return; }
+
+            let definitionsHTML = '';
+            if (data.definitions && data.definitions.length > 0) {
+                const defs = data.definitions.map(key => {
+                    const def = appData.glossaire[key];
+                    if (!def) return '';
+                    return '<div class="bg-accent-primary/10 border border-accent-primary/30 rounded-lg p-3">' +
+                        '<p class="text-xs text-accent-primary font-medium mb-1">💡 ' + def.terme + '</p>' +
+                        '<p class="text-sm text-gray-300">' + def.definition + '</p></div>';
+                }).join('');
+                definitionsHTML = '<div class="space-y-2 mb-6">' + defs + '</div>';
+            }
+
+            let methodeHTML = '';
+            if (data.methode) {
+                const etapes = data.methode.etapes.map(e => 
+                    '<div class="bg-surface-700/50 rounded-lg p-4">' +
+                    '<div class="flex items-center gap-3 mb-2">' +
+                    '<span class="w-8 h-8 rounded-full bg-accent-primary/20 text-accent-primary flex items-center justify-center font-bold text-sm">' + e.numero + '</span>' +
+                    '<h4 class="font-semibold text-gray-100">' + e.titre + '</h4></div>' +
+                    '<p class="text-sm text-gray-400 mb-2">' + e.description + '</p>' +
+                    '<div class="bg-surface-800 rounded p-2 font-mono text-xs text-gray-300 break-words">"' + e.exemple + '"</div></div>'
+                ).join('');
+                const conseils = data.methode.conseils.map(c => '<li class="text-sm text-gray-400">• ' + c + '</li>').join('');
+                methodeHTML = '<div class="bg-surface-800 border border-accent-primary/30 rounded-xl p-5 mb-6">' +
+                    '<h3 class="text-lg font-bold text-accent-primary mb-4">🎯 ' + data.methode.titre + '</h3>' +
+                    '<div class="grid md:grid-cols-2 gap-3 mb-4">' + etapes + '</div>' +
+                    '<div class="mt-4 pt-4 border-t border-surface-600">' +
+                    '<p class="text-sm font-medium text-gray-300 mb-2">💡 Conseils</p>' +
+                    '<ul class="space-y-1">' + conseils + '</ul></div></div>';
+            }
+
+            let legalHTML = '';
+            if (data.legalInfo) {
+                legalHTML = '<div class="bg-red-500/10 border border-red-500/30 rounded-xl p-5 mb-6">' +
+                    '<p class="text-sm font-medium text-red-400 mb-2">⚖️ Point juridique important</p>' +
+                    '<p class="text-sm text-gray-300">' + data.legalInfo + '</p></div>';
+            }
+
+            let souverainHTML = data.souverain ? 
+                '<div class="bg-gradient-to-br from-blue-900/20 to-blue-900/5 border border-blue-500/30 rounded-xl p-5">' +
+                '<p class="text-xs uppercase tracking-wider text-blue-400 mb-2 font-medium">🇫🇷 Souverain</p>' +
+                '<h3 class="text-xl font-bold text-gray-100 mb-1">' + data.souverain.nom + '</h3>' +
+                '<p class="text-sm text-gray-500 mb-3">' + data.souverain.ecosysteme + '</p>' +
+                '<p class="text-sm text-gray-300 mb-4">' + data.souverain.pourquoi + '</p>' +
+                '<div class="flex items-center gap-2 text-xs text-blue-400"><span>🔒</span><span>' + data.souverain.modeConfidentiel + '</span></div></div>' :
+                '<div class="bg-surface-700/30 border border-surface-600/50 rounded-xl p-5 flex items-center justify-center">' +
+                '<p class="text-sm text-gray-600 text-center">Pas d\'alternative souveraine identifiée</p></div>';
+
+            decisionContent.innerHTML = '<div class="animate-in">' +
+                '<div class="flex items-center gap-4 mb-6"><span class="text-5xl">' + data.icon + '</span><div>' +
+                '<h2 class="text-2xl sm:text-3xl font-bold text-gray-100">' + besoin + '</h2>' +
+                '<p class="text-gray-400">' + data.description + '</p></div></div>' +
+                definitionsHTML +
+                '<div class="grid md:grid-cols-3 gap-4 mb-6">' +
+                '<div class="bg-gradient-to-br from-accent-primary/20 to-accent-primary/5 border border-accent-primary/30 rounded-xl p-5">' +
+                '<p class="text-xs uppercase tracking-wider text-accent-primary mb-2 font-medium">✦ Recommandé</p>' +
+                '<h3 class="text-xl font-bold text-gray-100 mb-1">' + data.principal.nom + '</h3>' +
+                '<p class="text-sm text-gray-500 mb-3">' + data.principal.ecosysteme + '</p>' +
+                '<p class="text-sm text-gray-300 mb-4">' + data.principal.pourquoi + '</p>' +
+                '<div class="flex items-center gap-2 text-xs text-accent-secondary"><span>🔒</span><span>' + data.principal.modeConfidentiel + '</span></div></div>' +
+                '<div class="bg-surface-700/50 border border-surface-600 rounded-xl p-5">' +
+                '<p class="text-xs uppercase tracking-wider text-gray-500 mb-2 font-medium">Alternative</p>' +
+                '<h3 class="text-xl font-bold text-gray-100 mb-1">' + data.alternative.nom + '</h3>' +
+                '<p class="text-sm text-gray-500 mb-3">' + data.alternative.ecosysteme + '</p>' +
+                '<p class="text-sm text-gray-300 mb-4">' + data.alternative.pourquoi + '</p>' +
+                '<div class="flex items-center gap-2 text-xs text-gray-500"><span>🔒</span><span>' + data.alternative.modeConfidentiel + '</span></div></div>' +
+                souverainHTML + '</div>' +
+                methodeHTML + legalHTML +
+                '<div class="bg-amber-500/10 border border-amber-500/30 rounded-xl p-5 mb-6">' +
+                '<p class="text-sm font-medium text-amber-400 mb-2">⚠️ Quand éviter</p>' +
+                '<p class="text-sm text-gray-300">' + data.quandEviter + '</p></div>' +
+                '<div class="grid md:grid-cols-2 gap-4 mb-6">' +
+                '<div class="bg-surface-700/50 rounded-xl p-5"><p class="text-sm font-medium text-green-400 mb-3">✓ Données acceptables</p>' +
+                '<ul class="space-y-1">' + data.donneesAcceptables.map(d => '<li class="text-sm text-gray-400">• ' + d + '</li>').join('') + '</ul></div>' +
+                '<div class="bg-surface-700/50 rounded-xl p-5"><p class="text-sm font-medium text-red-400 mb-3">✗ Données interdites</p>' +
+                '<ul class="space-y-1">' + data.donneesInterdites.map(d => '<li class="text-sm text-gray-400">• ' + d + '</li>').join('') + '</ul></div></div>' +
+                '<div class="bg-surface-800 border border-surface-600 rounded-xl p-5">' +
+                '<div class="flex items-center justify-between mb-4">' +
+                '<p class="text-sm font-medium text-gray-300">📝 Exemple de prompt RCTI</p>' +
+                '<span class="text-xs bg-accent-primary/20 text-accent-primary px-2 py-1 rounded">Niveau ' + data.promptExemple.niveau + '</span></div>' +
+                '<div class="space-y-3 font-mono text-sm">' +
+                '<div><span class="text-accent-primary font-bold">R</span><span class="text-gray-500">ôle :</span><p class="text-gray-300 mt-1 pl-4">' + data.promptExemple.role + '</p></div>' +
+                '<div><span class="text-accent-primary font-bold">C</span><span class="text-gray-500">ontexte :</span><p class="text-gray-300 mt-1 pl-4">' + data.promptExemple.contexte + '</p></div>' +
+                '<div><span class="text-accent-primary font-bold">T</span><span class="text-gray-500">âche :</span><p class="text-gray-300 mt-1 pl-4">' + data.promptExemple.tache + '</p></div>' +
+                '<div><span class="text-accent-primary font-bold">I</span><span class="text-gray-500">nstructions :</span><p class="text-gray-300 mt-1 pl-4">' + data.promptExemple.instructions + '</p></div></div>' +
+                '<button onclick="copyPrompt(\'' + besoin.replace(/'/g, "\\'") + '\')" class="mt-4 text-sm text-accent-secondary hover:text-accent-primary transition-colors">📋 Copier le prompt complet</button></div></div>';
+
+            mainView.classList.add('hidden');
+            glossaireView.classList.add('hidden');
+            decisionView.classList.remove('hidden');
+            window.scrollTo(0, 0);
+        }
+
+        function copyPrompt(besoin) {
+            const data = appData.recommandations[besoin];
+            const prompt = 'RÔLE : ' + data.promptExemple.role + '\n\nCONTEXTE : ' + data.promptExemple.contexte + '\n\nTÂCHE : ' + data.promptExemple.tache + '\n\nINSTRUCTIONS : ' + data.promptExemple.instructions;
+            navigator.clipboard.writeText(prompt).then(() => alert('Prompt copié dans le presse-papier !'));
+        }
+
+        backButton.addEventListener('click', () => { decisionView.classList.add('hidden'); mainView.classList.remove('hidden'); window.scrollTo(0, 0); });
+        glossaireToggle.addEventListener('click', () => { mainView.classList.add('hidden'); decisionView.classList.add('hidden'); glossaireView.classList.remove('hidden'); window.scrollTo(0, 0); });
+        glossaireBack.addEventListener('click', () => { glossaireView.classList.add('hidden'); mainView.classList.remove('hidden'); window.scrollTo(0, 0); });
+        document.querySelectorAll('.profile-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.profile-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedProfile = btn.dataset.profile;
+            });
+        });
+        loadData();
+    </script>
+</body>
+</html>

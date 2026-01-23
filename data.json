@@ -1,0 +1,512 @@
+{
+  "glossaire": {
+    "RAG": {
+      "terme": "RAG (Retrieval-Augmented Generation)",
+      "definition": "Technique qui permet à une IA de chercher dans vos documents avant de répondre, au lieu de se baser uniquement sur son entraînement. Résultat : des réponses basées sur VOS données, avec des citations précises.",
+      "exemple": "NotebookLM utilise le RAG : vous uploadez vos rapports, l'IA répond en citant les passages exacts."
+    },
+    "tokens": {
+      "terme": "Tokens",
+      "definition": "Unité de mesure du texte pour les IA. Un token ≈ 0,75 mot en français. Les IA ont une limite de tokens par conversation (leur 'mémoire').",
+      "exemple": "Claude peut traiter 200 000 tokens, soit environ 150 000 mots ou 300 pages."
+    },
+    "hallucinations": {
+      "terme": "Hallucinations",
+      "definition": "Quand l'IA invente des informations fausses mais les présente comme vraies, avec assurance. Ce n'est pas un bug, c'est une caractéristique de fonctionnement.",
+      "exemple": "L'IA peut inventer une citation, un article de loi inexistant, ou une statistique plausible mais fausse."
+    },
+    "GPTs": {
+      "terme": "GPTs (GPT personnalisés)",
+      "definition": "Versions personnalisées de ChatGPT que vous créez avec des instructions permanentes, des connaissances spécifiques, et éventuellement des actions automatisées.",
+      "exemple": "Un GPT 'Assistant courrier mairie' pré-configuré avec votre charte rédactionnelle et vos modèles de réponse."
+    },
+    "prompt": {
+      "terme": "Prompt",
+      "definition": "L'instruction ou la question que vous donnez à l'IA. La qualité du prompt détermine largement la qualité de la réponse. Un bon prompt est clair, contextualisé et structuré.",
+      "exemple": "Mauvais prompt : 'Écris un mail'. Bon prompt : 'Rédige un mail professionnel de 100 mots pour reporter une réunion, ton courtois mais direct.'"
+    },
+    "non-determinisme": {
+      "terme": "Non-déterminisme",
+      "definition": "Le même prompt donné deux fois à une IA peut produire des réponses différentes. L'IA n'est pas une calculatrice : elle génère du texte de manière probabiliste.",
+      "exemple": "Vous demandez un résumé, vous obtenez une version. Vous redemandez, vous obtenez une version légèrement différente."
+    },
+    "RCTI": {
+      "terme": "RCTI (structure de prompt)",
+      "definition": "Méthode pour structurer vos prompts : Rôle (qui est l'IA), Contexte (la situation), Tâche (ce qu'elle doit produire), Instructions (format, ton, contraintes).",
+      "exemple": "R: Expert RH territorial. C: Recrutement d'un développeur. T: Rédiger l'offre d'emploi. I: Format fonction publique, 300 mots max."
+    },
+    "metaprompt": {
+      "terme": "Métaprompt",
+      "definition": "Technique avancée : demander à une IA de créer le prompt optimal pour une autre IA (ou elle-même). L'IA devient votre assistant en ingénierie de prompt.",
+      "exemple": "Au lieu de rédiger vous-même un prompt complexe, vous demandez : 'Génère le prompt idéal pour que tu m'aides à analyser ce budget'."
+    }
+  },
+  "modesConfidentiels": {
+    "info": "Pour tout document sensible, activez systématiquement le mode conversation temporaire/éphémère. Ce mode garantit que vos échanges ne sont pas utilisés pour entraîner le modèle et ne sont pas conservés.",
+    "outils": {
+      "ChatGPT": { "disponible": true, "nom": "Temporary Chat" },
+      "Claude": { "disponible": true, "nom": "Conversation privée" },
+      "Gemini": { "disponible": true, "nom": "Mode éphémère" },
+      "Mistral": { "disponible": true, "nom": "Conversation temporaire" },
+      "Perplexity": { "disponible": true, "nom": "Incognito" },
+      "Copilot": { "disponible": "partiel", "nom": "Dépend licence Enterprise" },
+      "NotebookLM": { "disponible": false, "nom": "Données stockées Google Drive" },
+      "Gamma": { "disponible": false, "nom": "Compte requis" },
+      "DALL-E": { "disponible": "partiel", "nom": "Via ChatGPT Temporary Chat" }
+    }
+  },
+  "recommandations": {
+    "Rédiger": {
+      "icon": "✍️",
+      "description": "Mail, note, courrier, CR, discours",
+      "principal": {
+        "nom": "ChatGPT (Canvas)",
+        "ecosysteme": "OpenAI",
+        "pourquoi": "Mode co-édition en direct, itérations fluides sur le texte, GPTs personnalisables pour vos besoins récurrents.",
+        "modeConfidentiel": "Temporary Chat",
+        "forces": ["Édition collaborative en temps réel", "GPTs personnalisés", "Mode Canvas pour réécriture ciblée"],
+        "limites": ["Documents très longs (>10 pages) difficiles à gérer", "Tendance à la surformulation"]
+      },
+      "alternative": {
+        "nom": "Claude",
+        "ecosysteme": "Anthropic",
+        "pourquoi": "Excellent pour les documents longs et structurés. Ton plus naturel, moins 'marketing'.",
+        "modeConfidentiel": "Conversation privée"
+      },
+      "souverain": {
+        "nom": "Mistral (Le Chat)",
+        "ecosysteme": "Mistral AI (France)",
+        "pourquoi": "Hébergement français, conformité RGPD native. Idéal pour documents internes sensibles.",
+        "modeConfidentiel": "Conversation temporaire"
+      },
+      "quandEviter": "Évitez l'IA pour les courriers à forte valeur juridique ou engageant la responsabilité de la collectivité sans relecture experte.",
+      "donneesAcceptables": ["Données publiques", "Données internes non nominatives", "Brouillons de travail"],
+      "donneesInterdites": ["Données nominatives sans consentement", "Documents confidentiels classifiés"],
+      "promptExemple": {
+        "niveau": "Standard",
+        "role": "Tu es un rédacteur administratif expérimenté dans une collectivité territoriale.",
+        "contexte": "Je dois répondre à un administré mécontent d'un retard de traitement de son dossier d'urbanisme. Le délai légal est dépassé de 2 semaines. Ton : professionnel, empathique, sans excuse excessive.",
+        "tache": "Rédige un mail de réponse qui reconnaît le retard, explique brièvement la cause (surcharge ponctuelle), et donne une échéance réaliste.",
+        "instructions": "150 mots maximum. Pas de jargon juridique. Terminer par une formule d'ouverture (contact direct si besoin)."
+      }
+    },
+    "Synthétiser": {
+      "icon": "📋",
+      "description": "Dossier, rapports, réunions",
+      "principal": {
+        "nom": "Claude",
+        "ecosysteme": "Anthropic",
+        "pourquoi": "Fenêtre contextuelle très large (200k tokens), excellente capacité de synthèse structurée et hiérarchisée.",
+        "modeConfidentiel": "Conversation privée",
+        "forces": ["Traitement de documents très longs", "Synthèse fidèle sans hallucination", "Structure claire"],
+        "limites": ["Pas d'accès web natif", "Corpus non textuel (audio, vidéo) non supporté directement"]
+      },
+      "alternative": {
+        "nom": "Gemini",
+        "ecosysteme": "Google",
+        "pourquoi": "Intégration Google Drive native, bon pour synthétiser des docs déjà dans votre écosystème Google.",
+        "modeConfidentiel": "Mode éphémère"
+      },
+      "souverain": {
+        "nom": "Mistral (Le Chat)",
+        "ecosysteme": "Mistral AI (France)",
+        "pourquoi": "Pour les synthèses de documents internes sensibles nécessitant une solution souveraine.",
+        "modeConfidentiel": "Conversation temporaire"
+      },
+      "quandEviter": "Évitez pour des corpus audio/vidéo (préférez NotebookLM ou Gemini).",
+      "donneesAcceptables": ["Rapports internes", "Notes de réunion", "Documents de travail"],
+      "donneesInterdites": ["Dossiers nominatifs agents", "Documents médicaux", "PV confidentiels"],
+      "promptExemple": {
+        "niveau": "Standard",
+        "role": "Tu es un analyste administratif chargé de préparer des notes de synthèse pour la direction.",
+        "contexte": "Je te fournis 3 rapports d'activité trimestriels de services différents. Je dois présenter une synthèse consolidée au DGS.",
+        "tache": "Produis une synthèse de 500 mots maximum, structurée en : points saillants, alertes, recommandations.",
+        "instructions": "Utilise des bullet points pour les alertes. Cite les sources (Rapport 1, 2, 3). Ton factuel et neutre."
+      }
+    },
+    "Rechercher & vérifier": {
+      "icon": "🔍",
+      "description": "Veille, sources, croisement",
+      "principal": {
+        "nom": "Perplexity",
+        "ecosysteme": "Perplexity AI",
+        "pourquoi": "Moteur de recherche IA avec sources citées automatiquement. Croisement et vérification intégrés.",
+        "modeConfidentiel": "Incognito",
+        "forces": ["Sources citées et cliquables", "Actualité en temps réel", "Croisement automatique"],
+        "limites": ["Pas d'accès aux documents internes", "Peut manquer des sources spécialisées"]
+      },
+      "alternative": {
+        "nom": "Gemini",
+        "ecosysteme": "Google",
+        "pourquoi": "Accès au web Google, intégration avec votre écosystème Google Workspace.",
+        "modeConfidentiel": "Mode éphémère"
+      },
+      "souverain": {
+        "nom": "Mistral (Le Chat)",
+        "ecosysteme": "Mistral AI (France)",
+        "pourquoi": "Recherche web disponible, hébergement souverain pour les recherches sur sujets sensibles.",
+        "modeConfidentiel": "Conversation temporaire"
+      },
+      "quandEviter": "Évitez pour rechercher dans vos documents internes (utilisez NotebookLM).",
+      "donneesAcceptables": ["Recherches publiques", "Veille réglementaire", "Benchmark"],
+      "donneesInterdites": ["Ne pas coller de données internes dans la recherche"],
+      "promptExemple": {
+        "niveau": "Standard",
+        "role": "Tu es un chargé de veille juridique pour une collectivité territoriale.",
+        "contexte": "Je dois vérifier les dernières évolutions réglementaires sur l'accessibilité des ERP (Établissements Recevant du Public) en 2024-2025.",
+        "tache": "Recherche les textes récents, les dates d'application, et les obligations principales.",
+        "instructions": "Cite tes sources avec les liens. Distingue ce qui est en vigueur de ce qui est à venir. Format : liste structurée."
+      }
+    },
+    "Connaissance projet": {
+      "icon": "🗂️",
+      "description": "Corpus, RAG, base documentaire",
+      "definitions": ["RAG"],
+      "principal": {
+        "nom": "NotebookLM",
+        "ecosysteme": "Google",
+        "pourquoi": "RAG natif : uploadez vos documents, posez des questions, obtenez des réponses avec citations précises.",
+        "modeConfidentiel": "❌ Données stockées Google Drive",
+        "forces": ["Citations précises avec numéro de page", "Multi-documents", "Génération de FAQ, briefings"],
+        "limites": ["Limité à ~50 sources", "Pas de mode éphémère", "Formats limités (PDF, texte, audio)"]
+      },
+      "alternative": {
+        "nom": "Claude (Projets)",
+        "ecosysteme": "Anthropic",
+        "pourquoi": "Mode Projet permet d'uploader un corpus et de le requêter. Bonne alternative si vous n'utilisez pas Google.",
+        "modeConfidentiel": "Conversation privée dans le projet"
+      },
+      "souverain": null,
+      "quandEviter": "Évitez pour des documents très confidentiels (pas de mode éphémère). Préférez une solution on-premise.",
+      "donneesAcceptables": ["Documentation projet", "Corpus réglementaire", "Archives non sensibles"],
+      "donneesInterdites": ["Documents classifiés", "Données nominatives massives"],
+      "promptExemple": {
+        "niveau": "Standard",
+        "role": "N/A (NotebookLM ne prend pas de prompt structuré)",
+        "contexte": "Corpus : les 5 rapports annuels du service Éducation 2019-2024.",
+        "tache": "Quelle a été l'évolution des effectifs scolaires sur la période ?",
+        "instructions": "NotebookLM cite automatiquement les sources. Posez des questions directes et précises."
+      }
+    },
+    "Présenter": {
+      "icon": "🎯",
+      "description": "Slides, supports visuels",
+      "principal": {
+        "nom": "Gamma",
+        "ecosysteme": "Gamma App",
+        "pourquoi": "Génération de présentations complètes en quelques minutes. Design professionnel, export PPT/PDF.",
+        "modeConfidentiel": "❌ Compte requis, pas de mode éphémère",
+        "forces": ["Design automatique soigné", "Export PowerPoint natif", "Itérations rapides"],
+        "limites": ["Personnalisation graphique limitée", "Pas de charte graphique custom en gratuit"]
+      },
+      "alternative": {
+        "nom": "ChatGPT + Canva",
+        "ecosysteme": "OpenAI + Canva",
+        "pourquoi": "ChatGPT pour le contenu structuré, Canva pour le design. Plus de contrôle créatif.",
+        "modeConfidentiel": "Temporary Chat (ChatGPT)"
+      },
+      "souverain": null,
+      "quandEviter": "Évitez pour des présentations très techniques avec tableaux complexes ou données chiffrées précises.",
+      "donneesAcceptables": ["Contenus de présentation publics", "Synthèses non confidentielles"],
+      "donneesInterdites": ["Données budgétaires sensibles", "Organigrammes nominatifs"],
+      "promptExemple": {
+        "niveau": "Standard",
+        "role": "Tu es un concepteur de présentations pour des élus locaux.",
+        "contexte": "Je dois présenter le bilan annuel du service Petite Enfance au conseil municipal. 15 minutes max.",
+        "tache": "Propose un plan de présentation en 8-10 slides avec les titres et points clés de chaque slide.",
+        "instructions": "Public : élus non experts. Ton : factuel mais engageant. Inclure : chiffres clés, réalisations, perspectives."
+      }
+    },
+    "Automatiser": {
+      "icon": "⚙️",
+      "description": "Workflows, agents, intégrations",
+      "definitions": ["GPTs"],
+      "principal": {
+        "nom": "ChatGPT (GPTs)",
+        "ecosysteme": "OpenAI",
+        "pourquoi": "Création d'agents personnalisés sans code. Instructions persistantes, actions API possibles.",
+        "modeConfidentiel": "Temporary Chat",
+        "forces": ["No-code", "Partage facile", "Connexion à des APIs externes"],
+        "limites": ["Limité à l'écosystème OpenAI", "Pas de workflows complexes multi-étapes"]
+      },
+      "alternative": {
+        "nom": "Claude + n8n",
+        "ecosysteme": "Anthropic + n8n",
+        "pourquoi": "Pour des workflows complexes avec conditions, boucles, connexions multiples. Plus puissant mais plus technique.",
+        "modeConfidentiel": "Dépend de l'hébergement n8n"
+      },
+      "souverain": {
+        "nom": "Mistral (API)",
+        "ecosysteme": "Mistral AI (France)",
+        "pourquoi": "API souveraine pour intégrer l'IA dans vos outils internes en conformité RGPD.",
+        "modeConfidentiel": "Configurable"
+      },
+      "quandEviter": "Évitez les GPTs pour des workflows critiques nécessitant fiabilité et traçabilité totale.",
+      "donneesAcceptables": ["Données de test", "Processus non critiques"],
+      "donneesInterdites": ["Workflows décisionnels automatisés", "Données personnelles en masse"],
+      "promptExemple": {
+        "niveau": "Standard",
+        "role": "Tu es un assistant spécialisé dans la création de GPTs personnalisés.",
+        "contexte": "Je veux créer un GPT qui aide les agents à rédiger des réponses aux courriers des administrés.",
+        "tache": "Propose les instructions système (system prompt) pour ce GPT.",
+        "instructions": "Le GPT doit : demander le contexte, proposer 2 versions (formelle/accessible), rappeler les points de vigilance RGPD."
+      }
+    },
+    "Compte-rendu réunion": {
+      "icon": "🎙️",
+      "description": "Transcription, synthèse, CR automatisé",
+      "principal": {
+        "nom": "NotebookLM",
+        "ecosysteme": "Google",
+        "pourquoi": "Upload direct de fichiers audio, transcription automatique, puis synthèse et Q&A sur le contenu.",
+        "modeConfidentiel": "❌ Données stockées Google Drive",
+        "forces": ["Audio vers texte intégré", "Synthèse automatique", "Questions sur le contenu"],
+        "limites": ["Qualité dépend de l'audio", "Pas de mode éphémère", "Stockage Google"]
+      },
+      "alternative": {
+        "nom": "Gemini",
+        "ecosysteme": "Google",
+        "pourquoi": "Traitement audio natif, intégration Google Meet pour les réunions en ligne.",
+        "modeConfidentiel": "Mode éphémère"
+      },
+      "souverain": null,
+      "quandEviter": "Évitez pour les réunions confidentielles (comité de direction, sujets RH sensibles).",
+      "donneesAcceptables": ["Réunions de service courantes", "Ateliers de travail", "Formations"],
+      "donneesInterdites": ["Réunions disciplinaires", "Négociations sensibles", "Données médicales"],
+      "promptExemple": {
+        "niveau": "Standard",
+        "role": "N/A (NotebookLM travaille sur l'audio uploadé)",
+        "contexte": "Audio d'une réunion de service de 45 minutes sur le planning des congés d'été.",
+        "tache": "Après upload, demandez : 'Quelles sont les décisions prises ? Qui doit faire quoi ?'",
+        "instructions": "Posez des questions précises. Demandez le format : 'Sous forme de liste d'actions avec responsable et échéance.'"
+      }
+    },
+    "Plaud & enregistreurs IA": {
+      "icon": "📱",
+      "description": "Enregistrement physique, transcription, CR de terrain",
+      "principal": {
+        "nom": "Plaud Note",
+        "ecosysteme": "Plaud",
+        "pourquoi": "Enregistreur physique discret avec transcription IA intégrée. Idéal pour les réunions de terrain, visites, entretiens où le téléphone n'est pas approprié.",
+        "modeConfidentiel": "⚠️ Données traitées par serveurs Plaud (vérifier CGU)",
+        "forces": ["Format carte de crédit, très discret", "Transcription et résumé automatiques", "Fonctionne sans connexion pendant l'enregistrement", "Application dédiée avec historique"],
+        "limites": ["Données envoyées vers serveurs externes pour transcription", "Abonnement pour fonctions avancées", "Qualité dépend de l'environnement sonore"]
+      },
+      "alternative": {
+        "nom": "Dictaphone + Whisper",
+        "ecosysteme": "OpenAI (Whisper)",
+        "pourquoi": "Solution DIY : enregistrez avec n'importe quel dictaphone, transcrivez ensuite avec Whisper (gratuit, open source). Plus de contrôle sur vos données.",
+        "modeConfidentiel": "Whisper peut tourner en local"
+      },
+      "souverain": null,
+      "quandEviter": "N'enregistrez JAMAIS sans consentement explicite des participants. Vérifiez la légalité selon le contexte (réunion interne vs externe, présence de tiers).",
+      "donneesAcceptables": ["Réunions de travail avec accord", "Entretiens professionnels consentis", "Notes personnelles de terrain"],
+      "donneesInterdites": ["Enregistrements sans consentement", "Réunions avec données sensibles (RH, médical, juridique)", "Conversations privées"],
+      "legalInfo": "En France, l'enregistrement d'une conversation sans le consentement de tous les participants peut constituer une atteinte à la vie privée (article 226-1 du Code pénal). En contexte professionnel, informez systématiquement les participants.",
+      "promptExemple": {
+        "niveau": "Standard",
+        "role": "N/A (Plaud gère la transcription automatiquement)",
+        "contexte": "Vous avez enregistré une visite de chantier de 30 minutes avec le chef de projet et l'entreprise.",
+        "tache": "Une fois la transcription générée par Plaud, exportez-la vers Claude ou ChatGPT pour structurer le compte-rendu.",
+        "instructions": "Prompt de structuration : 'Voici la transcription d'une visite de chantier. Produis un CR structuré : participants, points abordés, décisions, actions à suivre.'"
+      }
+    },
+    "Gestion de crise": {
+      "icon": "🚨",
+      "description": "Guidelines, todolist, matrice",
+      "principal": {
+        "nom": "Claude",
+        "ecosysteme": "Anthropic",
+        "pourquoi": "Raisonnement structuré, capacité à produire des matrices de décision et des checklists actionnables rapidement.",
+        "modeConfidentiel": "Conversation privée",
+        "forces": ["Structuration rapide", "Ton mesuré adapté à la crise", "Listes actionnables"],
+        "limites": ["Pas d'accès temps réel", "Ne remplace pas l'expertise métier"]
+      },
+      "alternative": {
+        "nom": "ChatGPT",
+        "ecosysteme": "OpenAI",
+        "pourquoi": "Bonne alternative, légèrement plus créatif mais parfois moins structuré.",
+        "modeConfidentiel": "Temporary Chat"
+      },
+      "souverain": {
+        "nom": "Mistral (Le Chat)",
+        "ecosysteme": "Mistral AI (France)",
+        "pourquoi": "Pour les crises impliquant des données sensibles nécessitant souveraineté.",
+        "modeConfidentiel": "Conversation temporaire"
+      },
+      "quandEviter": "Ne jamais déléguer la décision finale à l'IA. L'IA structure, l'humain décide.",
+      "donneesAcceptables": ["Scénarios de crise génériques", "Plans de continuité anonymisés"],
+      "donneesInterdites": ["Noms des personnes impliquées", "Détails opérationnels sensibles en cours"],
+      "promptExemple": {
+        "niveau": "Standard",
+        "role": "Tu es un consultant en gestion de crise pour les collectivités territoriales.",
+        "contexte": "Incident : fuite d'eau majeure dans une école, découverte à 7h, rentrée scolaire à 8h30. 200 élèves concernés.",
+        "tache": "Produis une checklist d'actions immédiates (0-2h) et une matrice de décision (fermer/maintenir/délocaliser).",
+        "instructions": "Format : checklist numérotée avec responsable suggéré. Matrice : critères en lignes, options en colonnes."
+      }
+    },
+    "Multimodal": {
+      "icon": "🎬",
+      "description": "Audio, transcription, vidéo, images",
+      "definitions": ["tokens"],
+      "principal": {
+        "nom": "Gemini",
+        "ecosysteme": "Google",
+        "pourquoi": "Traitement natif audio, vidéo, image dans la même conversation. Le plus polyvalent en multimodal.",
+        "modeConfidentiel": "Mode éphémère",
+        "forces": ["Vidéo + audio + image natifs", "Intégration YouTube", "Analyse d'images détaillée"],
+        "limites": ["Fichiers volumineux parfois rejetés", "Qualité variable selon le format"]
+      },
+      "alternative": {
+        "nom": "ChatGPT (Vision)",
+        "ecosysteme": "OpenAI",
+        "pourquoi": "Très bon en analyse d'images et vision. Audio via Whisper intégré.",
+        "modeConfidentiel": "Temporary Chat"
+      },
+      "souverain": null,
+      "quandEviter": "Évitez pour des fichiers très volumineux (>100 Mo) ou des formats propriétaires.",
+      "donneesAcceptables": ["Vidéos de formation", "Photos de terrain", "Enregistrements publics"],
+      "donneesInterdites": ["Vidéosurveillance", "Enregistrements sans consentement", "Images d'identité"],
+      "promptExemple": {
+        "niveau": "Standard",
+        "role": "Tu es un assistant d'analyse multimédia pour une collectivité.",
+        "contexte": "Je t'uploade une photo d'un panneau d'affichage municipal détérioré.",
+        "tache": "Décris l'état du panneau, identifie les dégradations visibles, suggère les réparations nécessaires.",
+        "instructions": "Sois factuel et précis. Format : liste des dégradations constatées + recommandations."
+      }
+    },
+    "RH & organisation": {
+      "icon": "👥",
+      "description": "Process, cadres, chartes, fiches de poste",
+      "principal": {
+        "nom": "Claude",
+        "ecosysteme": "Anthropic",
+        "pourquoi": "Excellent pour rédiger des documents RH structurés : fiches de poste, procédures, chartes. Ton formel et précis.",
+        "modeConfidentiel": "Conversation privée",
+        "forces": ["Structuration de documents complexes", "Ton administratif maîtrisé", "Cohérence"],
+        "limites": ["Pas d'intégration SIRH", "Vérification juridique indispensable"]
+      },
+      "alternative": {
+        "nom": "Copilot",
+        "ecosysteme": "Microsoft",
+        "pourquoi": "Intégration native Office 365. Pratique si vous travaillez dans Word/Teams.",
+        "modeConfidentiel": "⚠️ Dépend licence Enterprise"
+      },
+      "souverain": {
+        "nom": "Mistral (Le Chat)",
+        "ecosysteme": "Mistral AI (France)",
+        "pourquoi": "Pour les documents RH sensibles nécessitant une solution souveraine.",
+        "modeConfidentiel": "Conversation temporaire"
+      },
+      "quandEviter": "Ne jamais utiliser l'IA pour des décisions RH individuelles (notation, sanctions, recrutement final).",
+      "donneesAcceptables": ["Trames de documents anonymisées", "Procédures génériques", "Chartes types"],
+      "donneesInterdites": ["Dossiers agents nominatifs", "Évaluations individuelles", "Données médicales"],
+      "promptExemple": {
+        "niveau": "Standard",
+        "role": "Tu es un expert en organisation et ressources humaines dans la fonction publique territoriale.",
+        "contexte": "Je dois rédiger une fiche de poste pour un(e) chargé(e) de communication digitale. Collectivité de 20 000 habitants.",
+        "tache": "Produis une fiche de poste complète : missions, activités, compétences requises, positionnement.",
+        "instructions": "Respecte le format fonction publique (cadre d'emplois, filière). Sois précis sur les compétences techniques et relationnelles."
+      }
+    },
+    "Créer des visuels": {
+      "icon": "🎨",
+      "description": "Illustration, images, inspiration",
+      "principal": {
+        "nom": "DALL·E",
+        "ecosysteme": "OpenAI",
+        "pourquoi": "Génération d'images contrôlée, style cohérent, itérations possibles sur une image existante.",
+        "modeConfidentiel": "Via ChatGPT Temporary Chat",
+        "forces": ["Contrôle du style", "Édition d'images existantes", "Cohérence visuelle"],
+        "limites": ["Texte dans les images souvent raté", "Pas de style 'officiel' garanti"]
+      },
+      "alternative": {
+        "nom": "Imagen (Gemini)",
+        "ecosysteme": "Google",
+        "pourquoi": "Création rapide de visuels stylisés, approche plus exploratoire et créative.",
+        "modeConfidentiel": "Mode éphémère Gemini"
+      },
+      "souverain": null,
+      "quandEviter": "Interdit pour : logos officiels, identité visuelle institutionnelle, visuels pouvant être trompeurs.",
+      "donneesAcceptables": ["Illustrations pédagogiques", "Visuels d'inspiration", "Supports de formation"],
+      "donneesInterdites": ["Visuels officiels engageant la collectivité", "Images de personnes réelles", "Contenus pouvant induire en erreur"],
+      "promptExemple": {
+        "niveau": "Standard",
+        "role": "Tu es un directeur artistique pour des supports de formation.",
+        "contexte": "Je prépare un support de formation sur l'IA pour des agents administratifs.",
+        "tache": "Génère une illustration conceptuelle montrant la collaboration humain-IA dans un bureau moderne.",
+        "instructions": "Style : flat design coloré, tons bleus et verts, pas de texte dans l'image, ambiance positive et professionnelle."
+      }
+    },
+    "Métaprompt": {
+      "icon": "🧠",
+      "description": "Faire créer un prompt expert par l'IA",
+      "definitions": ["metaprompt", "prompt", "RCTI"],
+      "principal": {
+        "nom": "Claude",
+        "ecosysteme": "Anthropic",
+        "pourquoi": "Excellent en raisonnement et structuration. Produit des prompts détaillés et bien organisés.",
+        "modeConfidentiel": "Conversation privée",
+        "forces": ["Raisonnement étape par étape", "Prompts très structurés", "Prise en compte des nuances"],
+        "limites": ["Peut sur-complexifier pour des besoins simples"]
+      },
+      "alternative": {
+        "nom": "ChatGPT",
+        "ecosysteme": "OpenAI",
+        "pourquoi": "Très bon aussi, avec une approche parfois plus directe et concise.",
+        "modeConfidentiel": "Temporary Chat"
+      },
+      "souverain": {
+        "nom": "Mistral (Le Chat)",
+        "ecosysteme": "Mistral AI (France)",
+        "pourquoi": "Alternative souveraine pour générer des prompts sur des sujets sensibles.",
+        "modeConfidentiel": "Conversation temporaire"
+      },
+      "quandEviter": "Pour des demandes simples, un prompt direct est plus efficace qu'un métaprompt.",
+      "donneesAcceptables": ["Description de votre besoin", "Contexte métier", "Exemples de résultats attendus"],
+      "donneesInterdites": ["Données sensibles dans la description du besoin"],
+      "methode": {
+        "titre": "Comment utiliser le métaprompt",
+        "etapes": [
+          {
+            "numero": 1,
+            "titre": "Décrivez votre objectif final",
+            "description": "Expliquez à l'IA ce que vous voulez obtenir, pas comment l'obtenir.",
+            "exemple": "Je veux analyser les retours des usagers sur le nouveau service de cantine scolaire pour identifier les points d'amélioration prioritaires."
+          },
+          {
+            "numero": 2,
+            "titre": "Précisez le contexte",
+            "description": "Donnez les éléments qui influencent la tâche : public, contraintes, format souhaité.",
+            "exemple": "J'ai 150 commentaires libres issus d'un questionnaire. Je dois présenter une synthèse au prochain conseil d'école."
+          },
+          {
+            "numero": 3,
+            "titre": "Demandez le prompt expert",
+            "description": "Formulez explicitement votre demande de métaprompt.",
+            "exemple": "Génère le prompt optimal que je devrais utiliser pour obtenir cette analyse. Structure-le en RCTI."
+          },
+          {
+            "numero": 4,
+            "titre": "Itérez si nécessaire",
+            "description": "Demandez des ajustements sur le prompt généré avant de l'utiliser.",
+            "exemple": "Ajoute une consigne pour catégoriser les retours par thème (qualité, prix, service, hygiène)."
+          }
+        ],
+        "conseils": [
+          "Plus vous êtes précis sur votre objectif, meilleur sera le prompt généré",
+          "Demandez toujours une structure RCTI pour des résultats professionnels",
+          "Testez le prompt généré et revenez ajuster si le résultat n'est pas satisfaisant",
+          "Le métaprompt est particulièrement utile pour les tâches complexes ou récurrentes"
+        ]
+      },
+      "promptExemple": {
+        "niveau": "Standard",
+        "role": "Tu es un expert en ingénierie de prompt (prompt engineering) spécialisé dans les usages professionnels en collectivité territoriale.",
+        "contexte": "Je dois [DÉCRIRE VOTRE OBJECTIF]. Mon contexte : [DÉCRIRE VOTRE SITUATION]. Le résultat sera utilisé pour [DÉCRIRE L'USAGE FINAL].",
+        "tache": "Génère le prompt optimal, structuré en RCTI (Rôle, Contexte, Tâche, Instructions), que je pourrai utiliser pour obtenir le meilleur résultat possible.",
+        "instructions": "Le prompt doit être : précis, actionnable, adapté à mon contexte métier. Inclus des consignes sur le format de sortie attendu. Explique brièvement pourquoi tu as fait ces choix."
+      }
+    }
+  }
+}
