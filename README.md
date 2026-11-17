@@ -1,4 +1,4 @@
-# Arbre de décision des outils IA
+# Boussole IA
 
 > Apprendre à **penser l'IA** avant de l'utiliser. Un outil de raisonnement, pas un catalogue.
 

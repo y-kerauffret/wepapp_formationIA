@@ -1,4 +1,4 @@
-/* Arbre de décision des outils IA — logique de l'application
+/* Boussole IA — logique de l'application
    Navigation par URL (#/...) : le bouton « retour » du navigateur fonctionne
    et chaque fiche peut être partagée par lien. */
 (function () {
@@ -59,7 +59,7 @@
 
         app.innerHTML = `
         <section class="hero">
-            <div class="wrap">
+            <div class="wrap hero-grid">
                 <div>
                     <p class="eyebrow">Formation IA · agents des collectivités</p>
                     <h1>De quoi avez-vous <em>besoin</em> aujourd'hui&nbsp;?</h1>
@@ -70,10 +70,13 @@
                         <input id="q" type="search" autocomplete="off" placeholder="Ex. : compte-rendu, budget, affiche, Claude…" value="${esc(query)}">
                     </div>
                 </div>
-                <aside class="news-card" aria-labelledby="news-title">
-                    <h2 id="news-title">${icon('newspaper')} Ce qui a changé récemment</h2>
-                    <ul>${actus.map(a => `<li><p class="when">${esc(a.date)} · ${esc(a.outil)}</p><p class="what">${esc(a.titre)}</p></li>`).join('')}</ul>
-                    <a class="link-arrow" href="#/nouveautes">Toutes les nouveautés ${icon('arrow-right')}</a>
+                ${compassSVG()}
+            </div>
+            <div class="wrap">
+                <aside class="newsbar" aria-labelledby="news-title">
+                    <h2 id="news-title">${icon('newspaper')} Ce qui a changé</h2>
+                    <ul>${actus.map(a => `<li><span class="when">${esc(a.date)} · ${esc(a.outil)}</span><span class="what">${esc(a.titre)}</span></li>`).join('')}</ul>
+                    <a class="link-arrow" href="#/nouveautes">Tout voir ${icon('arrow-right')}</a>
                 </aside>
             </div>
         </section>
@@ -107,10 +110,86 @@
         }
     }
 
+    // ---------- Boussole décorative (l'aiguille suit le curseur) ----------
+    function compassSVG() {
+        let ticks = '';
+        for (let i = 0; i < 72; i++) {
+            const a = i * 5 * Math.PI / 180, major = i % 9 === 0;
+            const r1 = major ? 80 : 84, r2 = 90;
+            ticks += `<line class="tick${major ? ' major' : ''}" x1="${100 + r1 * Math.sin(a)}" y1="${100 - r1 * Math.cos(a)}" x2="${100 + r2 * Math.sin(a)}" y2="${100 - r2 * Math.cos(a)}"/>`;
+        }
+        return `<div class="hero-compass" aria-hidden="true"><svg viewBox="0 0 200 200">
+            <defs><radialGradient id="glow"><stop offset="0" stop-color="#f0895c" stop-opacity=".28"/><stop offset="1" stop-color="#f0895c" stop-opacity="0"/></radialGradient></defs>
+            <circle class="glow" cx="100" cy="100" r="70"/>
+            <circle class="ring-b" cx="100" cy="100" r="96"/>
+            <circle class="ring" cx="100" cy="100" r="91"/>
+            <circle class="ring" cx="100" cy="100" r="62"/>
+            ${ticks}
+            <text class="n" x="100" y="70">N</text><text x="130" y="100">E</text><text x="100" y="130">S</text><text x="70" y="100">O</text>
+            <g class="needle idle">
+                <path d="M100 30 L108 100 L100 94 L92 100 Z" fill="#f0895c"/>
+                <path d="M100 170 L108 100 L100 106 L92 100 Z" fill="rgba(247,239,227,.5)"/>
+                <circle cx="100" cy="100" r="5" fill="#1f1815" stroke="#f7efe3" stroke-width="1.5"/>
+            </g></svg></div>`;
+    }
+
+    const canAnimate = () => !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const finePointer = () => window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+    let needleAngle = 0, needleRaf = null;
+    document.addEventListener('pointermove', e => {
+        if (e.pointerType !== 'mouse' || !canAnimate()) return;
+        const needle = document.querySelector('.hero-compass .needle');
+        if (!needle || needleRaf) return;
+        needleRaf = requestAnimationFrame(() => {
+            needleRaf = null;
+            const box = needle.ownerSVGElement.getBoundingClientRect();
+            const cx = box.left + box.width / 2, cy = box.top + box.height / 2;
+            const target = Math.atan2(e.clientX - cx, cy - e.clientY) * 180 / Math.PI;
+            let delta = ((target - needleAngle) % 360 + 540) % 360 - 180; // chemin le plus court
+            needleAngle += delta;
+            needle.classList.remove('idle');
+            needle.style.transform = `rotate(${needleAngle}deg)`;
+        });
+    });
+
+    // ---------- Tuiles : inclinaison vers le curseur ----------
+    function bindTiles(root) {
+        if (!finePointer() || !canAnimate()) return;
+        root.querySelectorAll('.tile').forEach(t => {
+            t.addEventListener('pointermove', e => {
+                const r = t.getBoundingClientRect();
+                const x = (e.clientX - r.left) / r.width, y = (e.clientY - r.top) / r.height;
+                t.classList.add('tilting');
+                t.style.setProperty('--ry', ((x - .5) * 9).toFixed(2) + 'deg');
+                t.style.setProperty('--rx', ((.5 - y) * 9).toFixed(2) + 'deg');
+                t.style.setProperty('--mx', (x * 100).toFixed(1) + '%');
+                t.style.setProperty('--my', (y * 100).toFixed(1) + '%');
+            });
+            t.addEventListener('pointerleave', () => {
+                t.classList.remove('tilting');
+                t.style.setProperty('--rx', '0deg');
+                t.style.setProperty('--ry', '0deg');
+            });
+        });
+    }
+
+    // ---------- Tuiles : apparition au défilement ----------
+    let revealObs;
+    function revealTiles(root) {
+        if (!('IntersectionObserver' in window) || !canAnimate()) return;
+        if (revealObs) revealObs.disconnect();
+        revealObs = new IntersectionObserver(entries => {
+            entries.forEach(en => { if (en.isIntersecting) { en.target.classList.add('in'); revealObs.unobserve(en.target); } });
+        }, { rootMargin: '0px 0px -8% 0px' });
+        root.querySelectorAll('.tiles').forEach(grid => {
+            grid.querySelectorAll('.tile').forEach((t, i) => { t.style.setProperty('--d', i); t.classList.add('reveal'); revealObs.observe(t); });
+        });
+    }
+
     function renderFamilies() {
         const box = document.getElementById('families');
         const q = norm(query.trim());
-        let shown = 0, idx = 0;
+        let shown = 0;
         const html = data.familles.map((f, fi) => {
             const items = f.besoins.filter(b => {
                 if (!q) return true;
@@ -128,7 +207,7 @@
                 <div class="tiles">
                     ${items.map(b => {
                         const r = data.recommandations[b];
-                        return `<a class="tile" href="#/besoin/${slug(b)}" data-slug="${slug(b)}" style="--i:${idx++}">
+                        return `<a class="tile" href="#/besoin/${slug(b)}" data-slug="${slug(b)}">
                             ${r.nouveau ? '<span class="tag-new">Nouveau</span>' : ''}
                             <span class="tile-icon">${icon(r.picto)}</span>
                             <h3>${esc(b)}</h3>
@@ -141,6 +220,8 @@
         }).join('');
         box.innerHTML = shown ? html : `<p class="empty">Aucun besoin ne correspond à « ${esc(query)} ». Essayez un mot plus simple (ex. : « mail », « réunion », « image »).</p>`;
         observeFamilies();
+        bindTiles(box);
+        revealTiles(box);
     }
 
     let observer;
