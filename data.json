@@ -153,7 +153,7 @@
     "RAG": {
       "terme": "RAG (Retrieval-Augmented Generation)",
       "definition": "Technique qui permet à une IA de chercher dans vos documents avant de répondre, au lieu de se baser uniquement sur son entraînement. Résultat : des réponses basées sur VOS données, avec des citations précises.",
-      "exemple": "NotebookLM utilise le RAG : vous uploadez vos rapports, l'IA répond en citant les passages exacts."
+      "exemple": "Gemini Notebook (ex-NotebookLM) utilise le RAG : vous uploadez vos rapports, l'IA répond en citant les passages exacts."
     },
     "tokens": {
       "terme": "Tokens",
@@ -189,20 +189,52 @@
       "terme": "Métaprompt",
       "definition": "Technique avancée : demander à une IA de créer le prompt optimal pour une autre IA (ou elle-même). L'IA devient votre assistant en ingénierie de prompt.",
       "exemple": "Au lieu de rédiger vous-même un prompt complexe, vous demandez : 'Génère le prompt idéal pour que tu m'aides à analyser ce budget'."
+    },
+    "agent": {
+      "terme": "Agent IA",
+      "definition": "IA qui ne se contente pas de répondre : elle planifie et exécute elle-même plusieurs étapes (chercher, ouvrir des fichiers, utiliser des outils, parfois agir dans des applications). Plus autonome, donc plus risquée à mal cadrer.",
+      "exemple": "« Prépare-moi une note à partir de ces 4 documents et des sources web » : l'agent lit, cherche, rédige, puis vous soumet le résultat."
     }
   },
   "modesConfidentiels": {
-    "info": "Pour tout document sensible, activez systématiquement le mode conversation temporaire/éphémère. Ce mode garantit que vos échanges ne sont pas utilisés pour entraîner le modèle et ne sont pas conservés.",
+    "info": "Pour tout document de travail, activez le mode temporaire/incognito : la conversation n'apparaît pas dans l'historique et ne sert pas à entraîner le modèle. ⚠️ Ce n'est pas une garantie de non-conservation : certains éditeurs gardent ces échanges plusieurs semaines (ex. 30 jours chez OpenAI) pour la sécurité. Pour des données sensibles, seule une offre professionnelle sous contrat validée par votre DPO fait foi.",
     "outils": {
-      "ChatGPT": { "disponible": true, "nom": "Temporary Chat" },
-      "Claude": { "disponible": true, "nom": "Conversation privée" },
-      "Gemini": { "disponible": true, "nom": "Mode éphémère" },
-      "Mistral": { "disponible": true, "nom": "Conversation temporaire" },
-      "Perplexity": { "disponible": true, "nom": "Incognito" },
-      "Copilot": { "disponible": "partiel", "nom": "Dépend licence Enterprise" },
-      "NotebookLM": { "disponible": false, "nom": "Données stockées Google Drive" },
-      "Gamma": { "disponible": false, "nom": "Compte requis" },
-      "DALL-E": { "disponible": "partiel", "nom": "Via ChatGPT Temporary Chat" }
+      "ChatGPT": {
+        "disponible": true,
+        "nom": "Discussion temporaire"
+      },
+      "Claude": {
+        "disponible": true,
+        "nom": "Chat incognito"
+      },
+      "Gemini": {
+        "disponible": true,
+        "nom": "Discussion temporaire"
+      },
+      "Mistral Vibe": {
+        "disponible": true,
+        "nom": "Mode incognito"
+      },
+      "Perplexity": {
+        "disponible": true,
+        "nom": "Incognito"
+      },
+      "Copilot Chat": {
+        "disponible": "partiel",
+        "nom": "Protection entreprise si compte pro (Entra ID)"
+      },
+      "Gemini Notebook": {
+        "disponible": false,
+        "nom": "Pas de mode éphémère"
+      },
+      "Gamma": {
+        "disponible": false,
+        "nom": "Compte requis"
+      },
+      "ChatGPT Images": {
+        "disponible": true,
+        "nom": "Via Discussion temporaire"
+      }
     }
   },
   "recommandations": {
@@ -213,25 +245,39 @@
         "nom": "ChatGPT (Canvas)",
         "ecosysteme": "OpenAI",
         "pourquoi": "Mode co-édition en direct, itérations fluides sur le texte, GPTs personnalisables pour vos besoins récurrents.",
-        "modeConfidentiel": "Temporary Chat",
-        "forces": ["Édition collaborative en temps réel", "GPTs personnalisés", "Mode Canvas pour réécriture ciblée"],
-        "limites": ["Documents très longs (>10 pages) difficiles à gérer", "Tendance à la surformulation"]
+        "modeConfidentiel": "Discussion temporaire",
+        "forces": [
+          "Édition collaborative en temps réel",
+          "GPTs personnalisés",
+          "Mode Canvas pour réécriture ciblée"
+        ],
+        "limites": [
+          "Documents très longs : préférer Claude",
+          "Tendance à la surformulation : demander un ton sobre"
+        ]
       },
       "alternative": {
         "nom": "Claude",
         "ecosysteme": "Anthropic",
         "pourquoi": "Excellent pour les documents longs et structurés. Ton plus naturel, moins 'marketing'.",
-        "modeConfidentiel": "Conversation privée"
+        "modeConfidentiel": "Chat incognito"
       },
       "souverain": {
-        "nom": "Mistral (Le Chat)",
+        "nom": "Mistral Vibe (ex-Le Chat)",
         "ecosysteme": "Mistral AI (France)",
         "pourquoi": "Hébergement français, conformité RGPD native. Idéal pour documents internes sensibles.",
-        "modeConfidentiel": "Conversation temporaire"
+        "modeConfidentiel": "Mode incognito"
       },
       "quandEviter": "Évitez l'IA pour les courriers à forte valeur juridique ou engageant la responsabilité de la collectivité sans relecture experte.",
-      "donneesAcceptables": ["Données publiques", "Données internes non nominatives", "Brouillons de travail"],
-      "donneesInterdites": ["Données nominatives sans consentement", "Documents confidentiels classifiés"],
+      "donneesAcceptables": [
+        "Données publiques",
+        "Données internes non nominatives",
+        "Brouillons de travail"
+      ],
+      "donneesInterdites": [
+        "Données nominatives sans consentement",
+        "Documents confidentiels classifiés"
+      ],
       "promptExemple": {
         "niveau": "Standard",
         "role": "Tu es un rédacteur administratif expérimenté dans une collectivité territoriale.",
@@ -246,26 +292,41 @@
       "principal": {
         "nom": "Claude",
         "ecosysteme": "Anthropic",
-        "pourquoi": "Fenêtre contextuelle très large (200k tokens), excellente capacité de synthèse structurée et hiérarchisée.",
-        "modeConfidentiel": "Conversation privée",
-        "forces": ["Traitement de documents très longs", "Synthèse fidèle sans hallucination", "Structure claire"],
-        "limites": ["Pas d'accès web natif", "Corpus non textuel (audio, vidéo) non supporté directement"]
+        "pourquoi": "Très large fenêtre de contexte : plusieurs rapports complets en une fois. Synthèse structurée et hiérarchisée, ton sobre.",
+        "modeConfidentiel": "Chat incognito",
+        "forces": [
+          "Traitement de documents très longs",
+          "Bonne fidélité au texte source",
+          "Structure claire, citation des passages sur demande"
+        ],
+        "limites": [
+          "Peut encore omettre ou déformer un point : relire contre la source",
+          "Audio/vidéo : préférer Gemini ou Gemini Notebook"
+        ]
       },
       "alternative": {
         "nom": "Gemini",
         "ecosysteme": "Google",
         "pourquoi": "Intégration Google Drive native, bon pour synthétiser des docs déjà dans votre écosystème Google.",
-        "modeConfidentiel": "Mode éphémère"
+        "modeConfidentiel": "Discussion temporaire"
       },
       "souverain": {
-        "nom": "Mistral (Le Chat)",
+        "nom": "Mistral Vibe (ex-Le Chat)",
         "ecosysteme": "Mistral AI (France)",
         "pourquoi": "Pour les synthèses de documents internes sensibles nécessitant une solution souveraine.",
-        "modeConfidentiel": "Conversation temporaire"
+        "modeConfidentiel": "Mode incognito"
       },
-      "quandEviter": "Évitez pour des corpus audio/vidéo (préférez NotebookLM ou Gemini).",
-      "donneesAcceptables": ["Rapports internes", "Notes de réunion", "Documents de travail"],
-      "donneesInterdites": ["Dossiers nominatifs agents", "Documents médicaux", "PV confidentiels"],
+      "quandEviter": "Évitez pour des corpus audio/vidéo (préférez Gemini Notebook ou Gemini) et ne diffusez jamais une synthèse sans l'avoir confrontée aux documents sources.",
+      "donneesAcceptables": [
+        "Rapports internes",
+        "Notes de réunion",
+        "Documents de travail"
+      ],
+      "donneesInterdites": [
+        "Dossiers nominatifs agents",
+        "Documents médicaux",
+        "PV confidentiels"
+      ],
       "promptExemple": {
         "niveau": "Standard",
         "role": "Tu es un analyste administratif chargé de préparer des notes de synthèse pour la direction.",
@@ -282,28 +343,41 @@
         "ecosysteme": "Perplexity AI",
         "pourquoi": "Moteur de recherche IA avec sources citées automatiquement. Croisement et vérification intégrés.",
         "modeConfidentiel": "Incognito",
-        "forces": ["Sources citées et cliquables", "Actualité en temps réel", "Croisement automatique"],
-        "limites": ["Pas d'accès aux documents internes", "Peut manquer des sources spécialisées"]
+        "forces": [
+          "Sources citées et cliquables",
+          "Actualité en temps réel",
+          "Croisement automatique"
+        ],
+        "limites": [
+          "Pas d'accès aux documents internes",
+          "Peut manquer des sources spécialisées"
+        ]
       },
       "alternative": {
         "nom": "Gemini",
         "ecosysteme": "Google",
-        "pourquoi": "Accès au web Google, intégration avec votre écosystème Google Workspace.",
-        "modeConfidentiel": "Mode éphémère"
+        "pourquoi": "Recherche Google intégrée et mode « Deep Research » pour des rapports sourcés plus longs.",
+        "modeConfidentiel": "Discussion temporaire"
       },
       "souverain": {
-        "nom": "Mistral (Le Chat)",
+        "nom": "Mistral Vibe (ex-Le Chat)",
         "ecosysteme": "Mistral AI (France)",
-        "pourquoi": "Recherche web disponible, hébergement souverain pour les recherches sur sujets sensibles.",
-        "modeConfidentiel": "Conversation temporaire"
+        "pourquoi": "Recherche web et mode « Deep Research », hébergement européen pour les recherches sur sujets sensibles.",
+        "modeConfidentiel": "Mode incognito"
       },
-      "quandEviter": "Évitez pour rechercher dans vos documents internes (utilisez NotebookLM).",
-      "donneesAcceptables": ["Recherches publiques", "Veille réglementaire", "Benchmark"],
-      "donneesInterdites": ["Ne pas coller de données internes dans la recherche"],
+      "quandEviter": "Évitez pour rechercher dans vos documents internes (utilisez Gemini Notebook ou un projet Claude). Les modes « Deep Research » produisent des rapports convaincants mais pas infaillibles : ouvrez les sources citées.",
+      "donneesAcceptables": [
+        "Recherches publiques",
+        "Veille réglementaire",
+        "Benchmark"
+      ],
+      "donneesInterdites": [
+        "Ne pas coller de données internes dans la recherche"
+      ],
       "promptExemple": {
         "niveau": "Standard",
         "role": "Tu es un chargé de veille juridique pour une collectivité territoriale.",
-        "contexte": "Je dois vérifier les dernières évolutions réglementaires sur l'accessibilité des ERP (Établissements Recevant du Public) en 2024-2025.",
+        "contexte": "Je dois vérifier les dernières évolutions réglementaires sur l'accessibilité des ERP (Établissements Recevant du Public) en 2025-2026.",
         "tache": "Recherche les textes récents, les dates d'application, et les obligations principales.",
         "instructions": "Cite tes sources avec les liens. Distingue ce qui est en vigueur de ce qui est à venir. Format : liste structurée."
       }
@@ -311,31 +385,48 @@
     "Connaissance projet": {
       "icon": "🗂️",
       "description": "Corpus, RAG, base documentaire",
-      "definitions": ["RAG"],
+      "definitions": [
+        "RAG"
+      ],
       "principal": {
-        "nom": "NotebookLM",
+        "nom": "Gemini Notebook (ex-NotebookLM)",
         "ecosysteme": "Google",
-        "pourquoi": "RAG natif : uploadez vos documents, posez des questions, obtenez des réponses avec citations précises.",
-        "modeConfidentiel": "❌ Données stockées Google Drive",
-        "forces": ["Citations précises avec numéro de page", "Multi-documents", "Génération de FAQ, briefings"],
-        "limites": ["Limité à ~50 sources", "Pas de mode éphémère", "Formats limités (PDF, texte, audio)"]
+        "pourquoi": "RAG natif : déposez vos documents, posez des questions, obtenez des réponses citant précisément les passages. Désormais accessible aussi depuis l'application Gemini.",
+        "modeConfidentiel": "❌ Pas de mode éphémère (données liées au compte Google)",
+        "forces": [
+          "Citations précises renvoyant au passage source",
+          "Multi-documents (PDF, Docs, sites, audio, vidéo YouTube)",
+          "Génération de FAQ, briefings, résumés audio"
+        ],
+        "limites": [
+          "Nombre de sources limité selon l'abonnement",
+          "Pas de mode éphémère",
+          "Compte Google requis"
+        ]
       },
       "alternative": {
         "nom": "Claude (Projets)",
         "ecosysteme": "Anthropic",
         "pourquoi": "Mode Projet permet d'uploader un corpus et de le requêter. Bonne alternative si vous n'utilisez pas Google.",
-        "modeConfidentiel": "Conversation privée dans le projet"
+        "modeConfidentiel": "Projet Claude (mémoire propre au projet, désactivable)"
       },
       "souverain": null,
       "quandEviter": "Évitez pour des documents très confidentiels (pas de mode éphémère). Préférez une solution on-premise.",
-      "donneesAcceptables": ["Documentation projet", "Corpus réglementaire", "Archives non sensibles"],
-      "donneesInterdites": ["Documents classifiés", "Données nominatives massives"],
+      "donneesAcceptables": [
+        "Documentation projet",
+        "Corpus réglementaire",
+        "Archives non sensibles"
+      ],
+      "donneesInterdites": [
+        "Documents classifiés",
+        "Données nominatives massives"
+      ],
       "promptExemple": {
         "niveau": "Standard",
-        "role": "N/A (NotebookLM ne prend pas de prompt structuré)",
+        "role": "N/A (Gemini Notebook répond à partir de vos sources)",
         "contexte": "Corpus : les 5 rapports annuels du service Éducation 2019-2024.",
         "tache": "Quelle a été l'évolution des effectifs scolaires sur la période ?",
-        "instructions": "NotebookLM cite automatiquement les sources. Posez des questions directes et précises."
+        "instructions": "Gemini Notebook cite automatiquement les sources. Posez des questions directes et précises, et cliquez sur les citations pour vérifier."
       }
     },
     "Présenter": {
@@ -346,19 +437,32 @@
         "ecosysteme": "Gamma App",
         "pourquoi": "Génération de présentations complètes en quelques minutes. Design professionnel, export PPT/PDF.",
         "modeConfidentiel": "❌ Compte requis, pas de mode éphémère",
-        "forces": ["Design automatique soigné", "Export PowerPoint natif", "Itérations rapides"],
-        "limites": ["Personnalisation graphique limitée", "Pas de charte graphique custom en gratuit"]
+        "forces": [
+          "Design automatique soigné",
+          "Export PowerPoint natif",
+          "Itérations rapides"
+        ],
+        "limites": [
+          "Personnalisation graphique limitée",
+          "Pas de charte graphique custom en gratuit"
+        ]
       },
       "alternative": {
-        "nom": "ChatGPT + Canva",
-        "ecosysteme": "OpenAI + Canva",
-        "pourquoi": "ChatGPT pour le contenu structuré, Canva pour le design. Plus de contrôle créatif.",
-        "modeConfidentiel": "Temporary Chat (ChatGPT)"
+        "nom": "Copilot (PowerPoint)",
+        "ecosysteme": "Microsoft",
+        "pourquoi": "Génère un brouillon de présentation directement dans PowerPoint, avec votre modèle de diapositives. Pertinent si la collectivité est sous Microsoft 365.",
+        "modeConfidentiel": "⚠️ Licence Microsoft 365 Copilot payante requise dans PowerPoint"
       },
       "souverain": null,
       "quandEviter": "Évitez pour des présentations très techniques avec tableaux complexes ou données chiffrées précises.",
-      "donneesAcceptables": ["Contenus de présentation publics", "Synthèses non confidentielles"],
-      "donneesInterdites": ["Données budgétaires sensibles", "Organigrammes nominatifs"],
+      "donneesAcceptables": [
+        "Contenus de présentation publics",
+        "Synthèses non confidentielles"
+      ],
+      "donneesInterdites": [
+        "Données budgétaires sensibles",
+        "Organigrammes nominatifs"
+      ],
       "promptExemple": {
         "niveau": "Standard",
         "role": "Tu es un concepteur de présentations pour des élus locaux.",
@@ -370,14 +474,24 @@
     "Automatiser": {
       "icon": "⚙️",
       "description": "Workflows, agents, intégrations",
-      "definitions": ["GPTs"],
+      "definitions": [
+        "GPTs"
+      ],
       "principal": {
         "nom": "ChatGPT (GPTs)",
         "ecosysteme": "OpenAI",
-        "pourquoi": "Création d'agents personnalisés sans code. Instructions persistantes, actions API possibles.",
-        "modeConfidentiel": "Temporary Chat",
-        "forces": ["No-code", "Partage facile", "Connexion à des APIs externes"],
-        "limites": ["Limité à l'écosystème OpenAI", "Pas de workflows complexes multi-étapes"]
+        "pourquoi": "GPTs : assistants personnalisés sans code, avec instructions persistantes. Pour une tâche récurrente simple (ex. réponse type, reformulation).",
+        "modeConfidentiel": "Discussion temporaire",
+        "forces": [
+          "No-code",
+          "Partage facile",
+          "Connexion à des APIs externes"
+        ],
+        "limites": [
+          "Limité à l'écosystème OpenAI",
+          "Pas fait pour des workflows critiques multi-étapes",
+          "Un « agent » qui agit seul (mails, fichiers) demande des garde-fous"
+        ]
       },
       "alternative": {
         "nom": "Claude + n8n",
@@ -386,14 +500,20 @@
         "modeConfidentiel": "Dépend de l'hébergement n8n"
       },
       "souverain": {
-        "nom": "Mistral (API)",
+        "nom": "Mistral (API) / Mistral Vibe",
         "ecosysteme": "Mistral AI (France)",
-        "pourquoi": "API souveraine pour intégrer l'IA dans vos outils internes en conformité RGPD.",
-        "modeConfidentiel": "Configurable"
+        "pourquoi": "API européenne pour intégrer l'IA dans vos outils internes (ex. via n8n), ou agents configurables dans Mistral Vibe.",
+        "modeConfidentiel": "Configurable (API) / Mode incognito (Vibe)"
       },
       "quandEviter": "Évitez les GPTs pour des workflows critiques nécessitant fiabilité et traçabilité totale.",
-      "donneesAcceptables": ["Données de test", "Processus non critiques"],
-      "donneesInterdites": ["Workflows décisionnels automatisés", "Données personnelles en masse"],
+      "donneesAcceptables": [
+        "Données de test",
+        "Processus non critiques"
+      ],
+      "donneesInterdites": [
+        "Workflows décisionnels automatisés",
+        "Données personnelles en masse"
+      ],
       "promptExemple": {
         "niveau": "Standard",
         "role": "Tu es un assistant spécialisé dans la création de GPTs personnalisés.",
@@ -406,26 +526,42 @@
       "icon": "🎙️",
       "description": "Transcription, synthèse, CR automatisé",
       "principal": {
-        "nom": "NotebookLM",
+        "nom": "Gemini Notebook (ex-NotebookLM)",
         "ecosysteme": "Google",
-        "pourquoi": "Upload direct de fichiers audio, transcription automatique, puis synthèse et Q&A sur le contenu.",
-        "modeConfidentiel": "❌ Données stockées Google Drive",
-        "forces": ["Audio vers texte intégré", "Synthèse automatique", "Questions sur le contenu"],
-        "limites": ["Qualité dépend de l'audio", "Pas de mode éphémère", "Stockage Google"]
+        "pourquoi": "Dépôt direct de fichiers audio, transcription automatique, puis synthèse et questions-réponses sur le contenu.",
+        "modeConfidentiel": "❌ Pas de mode éphémère (données liées au compte Google)",
+        "forces": [
+          "Audio vers texte intégré",
+          "Synthèse automatique",
+          "Questions sur le contenu"
+        ],
+        "limites": [
+          "Qualité dépend de l'audio",
+          "Pas de mode éphémère",
+          "Stockage chez Google"
+        ]
       },
       "alternative": {
-        "nom": "Gemini",
-        "ecosysteme": "Google",
-        "pourquoi": "Traitement audio natif, intégration Google Meet pour les réunions en ligne.",
-        "modeConfidentiel": "Mode éphémère"
+        "nom": "Copilot (Teams)",
+        "ecosysteme": "Microsoft",
+        "pourquoi": "Récapitulatif et liste d'actions générés à partir de la transcription d'une réunion Teams. Le plus simple si vos réunions sont déjà dans Teams.",
+        "modeConfidentiel": "⚠️ Licence Microsoft 365 Copilot + transcription activée"
       },
       "souverain": null,
       "quandEviter": "Évitez pour les réunions confidentielles (comité de direction, sujets RH sensibles).",
-      "donneesAcceptables": ["Réunions de service courantes", "Ateliers de travail", "Formations"],
-      "donneesInterdites": ["Réunions disciplinaires", "Négociations sensibles", "Données médicales"],
+      "donneesAcceptables": [
+        "Réunions de service courantes",
+        "Ateliers de travail",
+        "Formations"
+      ],
+      "donneesInterdites": [
+        "Réunions disciplinaires",
+        "Négociations sensibles",
+        "Données médicales"
+      ],
       "promptExemple": {
         "niveau": "Standard",
-        "role": "N/A (NotebookLM travaille sur l'audio uploadé)",
+        "role": "N/A (Gemini Notebook travaille sur l'audio déposé)",
         "contexte": "Audio d'une réunion de service de 45 minutes sur le planning des congés d'été.",
         "tache": "Après upload, demandez : 'Quelles sont les décisions prises ? Qui doit faire quoi ?'",
         "instructions": "Posez des questions précises. Demandez le format : 'Sous forme de liste d'actions avec responsable et échéance.'"
@@ -439,8 +575,17 @@
         "ecosysteme": "Plaud",
         "pourquoi": "Enregistreur physique discret avec transcription IA intégrée. Idéal pour les réunions de terrain, visites, entretiens où le téléphone n'est pas approprié.",
         "modeConfidentiel": "⚠️ Données traitées par serveurs Plaud (vérifier CGU)",
-        "forces": ["Format carte de crédit, très discret", "Transcription et résumé automatiques", "Fonctionne sans connexion pendant l'enregistrement", "Application dédiée avec historique"],
-        "limites": ["Données envoyées vers serveurs externes pour transcription", "Abonnement pour fonctions avancées", "Qualité dépend de l'environnement sonore"]
+        "forces": [
+          "Format carte de crédit, très discret",
+          "Transcription et résumé automatiques",
+          "Fonctionne sans connexion pendant l'enregistrement",
+          "Application dédiée avec historique"
+        ],
+        "limites": [
+          "Données envoyées vers serveurs externes pour transcription",
+          "Abonnement pour fonctions avancées",
+          "Qualité dépend de l'environnement sonore"
+        ]
       },
       "alternative": {
         "nom": "Dictaphone + Whisper",
@@ -450,14 +595,22 @@
       },
       "souverain": null,
       "quandEviter": "N'enregistrez JAMAIS sans consentement explicite des participants. Vérifiez la légalité selon le contexte (réunion interne vs externe, présence de tiers).",
-      "donneesAcceptables": ["Réunions de travail avec accord", "Entretiens professionnels consentis", "Notes personnelles de terrain"],
-      "donneesInterdites": ["Enregistrements sans consentement", "Réunions avec données sensibles (RH, médical, juridique)", "Conversations privées"],
+      "donneesAcceptables": [
+        "Réunions de travail avec accord",
+        "Entretiens professionnels consentis",
+        "Notes personnelles de terrain"
+      ],
+      "donneesInterdites": [
+        "Enregistrements sans consentement",
+        "Réunions avec données sensibles (RH, médical, juridique)",
+        "Conversations privées"
+      ],
       "legalInfo": "En France, l'enregistrement d'une conversation sans le consentement de tous les participants peut constituer une atteinte à la vie privée (article 226-1 du Code pénal). En contexte professionnel, informez systématiquement les participants.",
       "promptExemple": {
         "niveau": "Standard",
         "role": "N/A (Plaud gère la transcription automatiquement)",
         "contexte": "Vous avez enregistré une visite de chantier de 30 minutes avec le chef de projet et l'entreprise.",
-        "tache": "Une fois la transcription générée par Plaud, exportez-la vers Claude ou ChatGPT pour structurer le compte-rendu.",
+        "tache": "Une fois la transcription générée par Plaud, exportez-la vers Claude, ChatGPT ou Mistral Vibe pour structurer le compte-rendu.",
         "instructions": "Prompt de structuration : 'Voici la transcription d'une visite de chantier. Produis un CR structuré : participants, points abordés, décisions, actions à suivre.'"
       }
     },
@@ -468,25 +621,38 @@
         "nom": "Claude",
         "ecosysteme": "Anthropic",
         "pourquoi": "Raisonnement structuré, capacité à produire des matrices de décision et des checklists actionnables rapidement.",
-        "modeConfidentiel": "Conversation privée",
-        "forces": ["Structuration rapide", "Ton mesuré adapté à la crise", "Listes actionnables"],
-        "limites": ["Pas d'accès temps réel", "Ne remplace pas l'expertise métier"]
+        "modeConfidentiel": "Chat incognito",
+        "forces": [
+          "Structuration rapide",
+          "Ton mesuré adapté à la crise",
+          "Listes actionnables"
+        ],
+        "limites": [
+          "Pas d'accès temps réel",
+          "Ne remplace pas l'expertise métier"
+        ]
       },
       "alternative": {
         "nom": "ChatGPT",
         "ecosysteme": "OpenAI",
         "pourquoi": "Bonne alternative, légèrement plus créatif mais parfois moins structuré.",
-        "modeConfidentiel": "Temporary Chat"
+        "modeConfidentiel": "Discussion temporaire"
       },
       "souverain": {
-        "nom": "Mistral (Le Chat)",
+        "nom": "Mistral Vibe (ex-Le Chat)",
         "ecosysteme": "Mistral AI (France)",
         "pourquoi": "Pour les crises impliquant des données sensibles nécessitant souveraineté.",
-        "modeConfidentiel": "Conversation temporaire"
+        "modeConfidentiel": "Mode incognito"
       },
       "quandEviter": "Ne jamais déléguer la décision finale à l'IA. L'IA structure, l'humain décide.",
-      "donneesAcceptables": ["Scénarios de crise génériques", "Plans de continuité anonymisés"],
-      "donneesInterdites": ["Noms des personnes impliquées", "Détails opérationnels sensibles en cours"],
+      "donneesAcceptables": [
+        "Scénarios de crise génériques",
+        "Plans de continuité anonymisés"
+      ],
+      "donneesInterdites": [
+        "Noms des personnes impliquées",
+        "Détails opérationnels sensibles en cours"
+      ],
       "promptExemple": {
         "niveau": "Standard",
         "role": "Tu es un consultant en gestion de crise pour les collectivités territoriales.",
@@ -498,25 +664,42 @@
     "Multimodal": {
       "icon": "🎬",
       "description": "Audio, transcription, vidéo, images",
-      "definitions": ["tokens"],
+      "definitions": [
+        "tokens"
+      ],
       "principal": {
         "nom": "Gemini",
         "ecosysteme": "Google",
         "pourquoi": "Traitement natif audio, vidéo, image dans la même conversation. Le plus polyvalent en multimodal.",
-        "modeConfidentiel": "Mode éphémère",
-        "forces": ["Vidéo + audio + image natifs", "Intégration YouTube", "Analyse d'images détaillée"],
-        "limites": ["Fichiers volumineux parfois rejetés", "Qualité variable selon le format"]
+        "modeConfidentiel": "Discussion temporaire",
+        "forces": [
+          "Vidéo + audio + image natifs",
+          "Intégration YouTube",
+          "Analyse d'images détaillée"
+        ],
+        "limites": [
+          "Fichiers volumineux parfois rejetés",
+          "Qualité variable selon le format"
+        ]
       },
       "alternative": {
-        "nom": "ChatGPT (Vision)",
+        "nom": "ChatGPT (vision & voix)",
         "ecosysteme": "OpenAI",
-        "pourquoi": "Très bon en analyse d'images et vision. Audio via Whisper intégré.",
-        "modeConfidentiel": "Temporary Chat"
+        "pourquoi": "Très bon en analyse d'images, de photos et de documents scannés. Transcription audio intégrée.",
+        "modeConfidentiel": "Discussion temporaire"
       },
       "souverain": null,
       "quandEviter": "Évitez pour des fichiers très volumineux (>100 Mo) ou des formats propriétaires.",
-      "donneesAcceptables": ["Vidéos de formation", "Photos de terrain", "Enregistrements publics"],
-      "donneesInterdites": ["Vidéosurveillance", "Enregistrements sans consentement", "Images d'identité"],
+      "donneesAcceptables": [
+        "Vidéos de formation",
+        "Photos de terrain",
+        "Enregistrements publics"
+      ],
+      "donneesInterdites": [
+        "Vidéosurveillance",
+        "Enregistrements sans consentement",
+        "Images d'identité"
+      ],
       "promptExemple": {
         "niveau": "Standard",
         "role": "Tu es un assistant d'analyse multimédia pour une collectivité.",
@@ -532,25 +715,40 @@
         "nom": "Claude",
         "ecosysteme": "Anthropic",
         "pourquoi": "Excellent pour rédiger des documents RH structurés : fiches de poste, procédures, chartes. Ton formel et précis.",
-        "modeConfidentiel": "Conversation privée",
-        "forces": ["Structuration de documents complexes", "Ton administratif maîtrisé", "Cohérence"],
-        "limites": ["Pas d'intégration SIRH", "Vérification juridique indispensable"]
+        "modeConfidentiel": "Chat incognito",
+        "forces": [
+          "Structuration de documents complexes",
+          "Ton administratif maîtrisé",
+          "Cohérence"
+        ],
+        "limites": [
+          "Pas d'intégration SIRH",
+          "Vérification juridique indispensable"
+        ]
       },
       "alternative": {
         "nom": "Copilot",
         "ecosysteme": "Microsoft",
-        "pourquoi": "Intégration native Office 365. Pratique si vous travaillez dans Word/Teams.",
-        "modeConfidentiel": "⚠️ Dépend licence Enterprise"
+        "pourquoi": "Copilot Chat (inclus avec Microsoft 365, compte professionnel) pour rédiger ; intégration dans Word réservée à la licence Copilot payante.",
+        "modeConfidentiel": "✅ Protection des données entreprise si connecté avec le compte pro"
       },
       "souverain": {
-        "nom": "Mistral (Le Chat)",
+        "nom": "Mistral Vibe (ex-Le Chat)",
         "ecosysteme": "Mistral AI (France)",
         "pourquoi": "Pour les documents RH sensibles nécessitant une solution souveraine.",
-        "modeConfidentiel": "Conversation temporaire"
+        "modeConfidentiel": "Mode incognito"
       },
       "quandEviter": "Ne jamais utiliser l'IA pour des décisions RH individuelles (notation, sanctions, recrutement final).",
-      "donneesAcceptables": ["Trames de documents anonymisées", "Procédures génériques", "Chartes types"],
-      "donneesInterdites": ["Dossiers agents nominatifs", "Évaluations individuelles", "Données médicales"],
+      "donneesAcceptables": [
+        "Trames de documents anonymisées",
+        "Procédures génériques",
+        "Chartes types"
+      ],
+      "donneesInterdites": [
+        "Dossiers agents nominatifs",
+        "Évaluations individuelles",
+        "Données médicales"
+      ],
       "promptExemple": {
         "niveau": "Standard",
         "role": "Tu es un expert en organisation et ressources humaines dans la fonction publique territoriale.",
@@ -563,23 +761,38 @@
       "icon": "🎨",
       "description": "Illustration, images, inspiration",
       "principal": {
-        "nom": "DALL·E",
+        "nom": "ChatGPT Images",
         "ecosysteme": "OpenAI",
-        "pourquoi": "Génération d'images contrôlée, style cohérent, itérations possibles sur une image existante.",
-        "modeConfidentiel": "Via ChatGPT Temporary Chat",
-        "forces": ["Contrôle du style", "Édition d'images existantes", "Cohérence visuelle"],
-        "limites": ["Texte dans les images souvent raté", "Pas de style 'officiel' garanti"]
+        "pourquoi": "Génération et retouche d'images directement dans la conversation. Bien meilleur qu'avant pour intégrer du texte lisible et garder un style cohérent entre versions.",
+        "modeConfidentiel": "Discussion temporaire",
+        "forces": [
+          "Retouche d'une image existante par instructions",
+          "Texte dans l'image nettement plus fiable",
+          "Images de référence pour garder un style"
+        ],
+        "limites": [
+          "Texte long ou accentué encore à vérifier",
+          "Droits et ressemblance avec des œuvres existantes à surveiller"
+        ]
       },
       "alternative": {
-        "nom": "Imagen (Gemini)",
+        "nom": "Gemini (génération d'images)",
         "ecosysteme": "Google",
-        "pourquoi": "Création rapide de visuels stylisés, approche plus exploratoire et créative.",
-        "modeConfidentiel": "Mode éphémère Gemini"
+        "pourquoi": "Création et retouche rapide, très bon pour modifier une photo ou décliner un visuel.",
+        "modeConfidentiel": "Discussion temporaire"
       },
       "souverain": null,
-      "quandEviter": "Interdit pour : logos officiels, identité visuelle institutionnelle, visuels pouvant être trompeurs.",
-      "donneesAcceptables": ["Illustrations pédagogiques", "Visuels d'inspiration", "Supports de formation"],
-      "donneesInterdites": ["Visuels officiels engageant la collectivité", "Images de personnes réelles", "Contenus pouvant induire en erreur"],
+      "quandEviter": "Interdit pour : logos officiels, identité visuelle institutionnelle, visuels pouvant être trompeurs (faux réalistes, personnes réelles). Signalez toujours qu'une image est générée par IA.",
+      "donneesAcceptables": [
+        "Illustrations pédagogiques",
+        "Visuels d'inspiration",
+        "Supports de formation"
+      ],
+      "donneesInterdites": [
+        "Visuels officiels engageant la collectivité",
+        "Images de personnes réelles",
+        "Contenus pouvant induire en erreur"
+      ],
       "promptExemple": {
         "niveau": "Standard",
         "role": "Tu es un directeur artistique pour des supports de formation.",
@@ -591,30 +804,46 @@
     "Métaprompt": {
       "icon": "🧠",
       "description": "Faire créer un prompt expert par l'IA",
-      "definitions": ["metaprompt", "prompt", "RCTI"],
+      "definitions": [
+        "metaprompt",
+        "prompt",
+        "RCTI"
+      ],
       "principal": {
         "nom": "Claude",
         "ecosysteme": "Anthropic",
         "pourquoi": "Excellent en raisonnement et structuration. Produit des prompts détaillés et bien organisés.",
-        "modeConfidentiel": "Conversation privée",
-        "forces": ["Raisonnement étape par étape", "Prompts très structurés", "Prise en compte des nuances"],
-        "limites": ["Peut sur-complexifier pour des besoins simples"]
+        "modeConfidentiel": "Chat incognito",
+        "forces": [
+          "Raisonnement étape par étape",
+          "Prompts très structurés",
+          "Prise en compte des nuances"
+        ],
+        "limites": [
+          "Peut sur-complexifier pour des besoins simples"
+        ]
       },
       "alternative": {
         "nom": "ChatGPT",
         "ecosysteme": "OpenAI",
         "pourquoi": "Très bon aussi, avec une approche parfois plus directe et concise.",
-        "modeConfidentiel": "Temporary Chat"
+        "modeConfidentiel": "Discussion temporaire"
       },
       "souverain": {
-        "nom": "Mistral (Le Chat)",
+        "nom": "Mistral Vibe (ex-Le Chat)",
         "ecosysteme": "Mistral AI (France)",
         "pourquoi": "Alternative souveraine pour générer des prompts sur des sujets sensibles.",
-        "modeConfidentiel": "Conversation temporaire"
+        "modeConfidentiel": "Mode incognito"
       },
       "quandEviter": "Pour des demandes simples, un prompt direct est plus efficace qu'un métaprompt.",
-      "donneesAcceptables": ["Description de votre besoin", "Contexte métier", "Exemples de résultats attendus"],
-      "donneesInterdites": ["Données sensibles dans la description du besoin"],
+      "donneesAcceptables": [
+        "Description de votre besoin",
+        "Contexte métier",
+        "Exemples de résultats attendus"
+      ],
+      "donneesInterdites": [
+        "Données sensibles dans la description du besoin"
+      ],
       "methode": {
         "titre": "Comment utiliser le métaprompt",
         "etapes": [
@@ -657,6 +886,220 @@
         "tache": "Génère le prompt optimal, structuré en RCTI (Rôle, Contexte, Tâche, Instructions), que je pourrai utiliser pour obtenir le meilleur résultat possible.",
         "instructions": "Le prompt doit être : précis, actionnable, adapté à mon contexte métier. Inclus des consignes sur le format de sortie attendu. Explique brièvement pourquoi tu as fait ces choix."
       }
+    },
+    "Analyser des données": {
+      "icon": "📊",
+      "nouveau": true,
+      "description": "Tableaux, budgets, enquêtes, indicateurs",
+      "principal": {
+        "nom": "ChatGPT (analyse de données)",
+        "ecosysteme": "OpenAI",
+        "pourquoi": "Charge un fichier Excel/CSV, exécute du code pour calculer, filtrer et produire des graphiques. Les calculs sont faits par du code, pas « de tête ».",
+        "modeConfidentiel": "Discussion temporaire",
+        "forces": [
+          "Calculs exécutés réellement (vérifiables)",
+          "Graphiques générés",
+          "Nettoyage de fichiers mal structurés"
+        ],
+        "limites": [
+          "Peut mal interpréter une colonne ambiguë",
+          "Fichiers très volumineux limités"
+        ]
+      },
+      "alternative": {
+        "nom": "Copilot (Excel)",
+        "ecosysteme": "Microsoft",
+        "pourquoi": "Directement dans Excel : formules, tableaux croisés, mise en forme conditionnelle sur vos propres fichiers.",
+        "modeConfidentiel": "⚠️ Licence Microsoft 365 Copilot payante requise"
+      },
+      "souverain": {
+        "nom": "Mistral Vibe (ex-Le Chat)",
+        "ecosysteme": "Mistral AI (France)",
+        "pourquoi": "Interpréteur de code intégré pour analyser un fichier, hébergement européen.",
+        "modeConfidentiel": "Mode incognito"
+      },
+      "quandEviter": "Évitez de diffuser un chiffre produit par l'IA sans le recalculer sur un échantillon. Jamais de données individuelles (paie, aides sociales) dans un outil grand public.",
+      "donneesAcceptables": [
+        "Données ouvertes (open data)",
+        "Indicateurs agrégés",
+        "Budgets votés et publiés"
+      ],
+      "donneesInterdites": [
+        "Fichiers nominatifs (paie, bénéficiaires, usagers)",
+        "Données fiscales ou sociales individuelles",
+        "Données non anonymisées d'enquête"
+      ],
+      "promptExemple": {
+        "niveau": "Standard",
+        "role": "Tu es un contrôleur de gestion dans une collectivité territoriale.",
+        "contexte": "Je te fournis un fichier Excel des dépenses de fonctionnement 2024-2025 par service (données agrégées, sans nom).",
+        "tache": "Calcule l'évolution par service, identifie les 3 plus fortes hausses et produis un graphique en barres.",
+        "instructions": "Montre le code ou la formule utilisée pour chaque calcul. Signale toute donnée manquante ou incohérente au lieu de la deviner. Résumé en 5 lignes pour un élu."
+      }
+    },
+    "Langage clair & FALC": {
+      "icon": "♿",
+      "nouveau": true,
+      "description": "Simplifier un courrier, un formulaire, une information usager",
+      "principal": {
+        "nom": "Claude",
+        "ecosysteme": "Anthropic",
+        "pourquoi": "Reformule fidèlement un texte administratif en langage clair, en respectant le fond. Bon pour proposer plusieurs niveaux de simplification.",
+        "modeConfidentiel": "Chat incognito",
+        "forces": [
+          "Fidélité au sens d'origine",
+          "Phrases courtes et structurées",
+          "Explique ses choix de simplification"
+        ],
+        "limites": [
+          "Le FALC officiel exige une relecture par des personnes concernées",
+          "Peut simplifier au point de perdre une information juridique"
+        ]
+      },
+      "alternative": {
+        "nom": "ChatGPT",
+        "ecosysteme": "OpenAI",
+        "pourquoi": "Bonne alternative, peut aussi produire un pictogramme ou une illustration d'accompagnement.",
+        "modeConfidentiel": "Discussion temporaire"
+      },
+      "souverain": {
+        "nom": "Mistral Vibe (ex-Le Chat)",
+        "ecosysteme": "Mistral AI (France)",
+        "pourquoi": "Simplification de documents internes ou de courriers types, hébergement européen.",
+        "modeConfidentiel": "Mode incognito"
+      },
+      "quandEviter": "Ne présentez pas un texte comme « FALC » s'il n'a pas été relu et validé par des personnes en situation de handicap intellectuel, comme le prévoient les règles européennes du FALC.",
+      "donneesAcceptables": [
+        "Courriers types",
+        "Pages d'information publiques",
+        "Formulaires vierges"
+      ],
+      "donneesInterdites": [
+        "Courriers nominatifs envoyés à un usager",
+        "Dossiers individuels (MDPH, CCAS…)"
+      ],
+      "promptExemple": {
+        "niveau": "Standard",
+        "role": "Tu es un spécialiste du langage clair dans l'administration.",
+        "contexte": "Voici le courrier type envoyé aux familles pour l'inscription à la cantine. Beaucoup de familles appellent car elles ne le comprennent pas.",
+        "tache": "Réécris ce courrier en langage clair, puis liste les informations que tu as dû simplifier ou retirer.",
+        "instructions": "Phrases de 15 mots maximum, un message par paragraphe, verbes d'action, pas de sigle non expliqué. Ne supprime aucune date, aucun montant, aucune pièce à fournir."
+      }
+    },
+    "Agent IA (tâche multi-étapes)": {
+      "icon": "🤖",
+      "nouveau": true,
+      "description": "Déléguer une tâche qui enchaîne recherche, fichiers et actions",
+      "definitions": [
+        "agent"
+      ],
+      "principal": {
+        "nom": "Claude (Cowork / connecteurs)",
+        "ecosysteme": "Anthropic",
+        "pourquoi": "Peut enchaîner plusieurs étapes (lire des fichiers, chercher, produire un document) en vous montrant son plan et en demandant validation avant d'agir.",
+        "modeConfidentiel": "⚠️ L'agent accède aux outils connectés : limitez ses accès",
+        "forces": [
+          "Plan visible avant exécution",
+          "Connecteurs vers outils de travail",
+          "Produit des livrables (documents, tableaux)"
+        ],
+        "limites": [
+          "Erreurs qui se cumulent sur des tâches longues",
+          "Accès aux mails/fichiers = risque si mal cadré"
+        ]
+      },
+      "alternative": {
+        "nom": "ChatGPT (mode agent)",
+        "ecosysteme": "OpenAI",
+        "pourquoi": "Navigue sur le web et réalise des tâches en plusieurs étapes dans un navigateur virtuel, en demandant confirmation pour les actions sensibles.",
+        "modeConfidentiel": "⚠️ Ne pas lui confier d'identifiants professionnels"
+      },
+      "souverain": {
+        "nom": "Mistral Vibe (Work Mode)",
+        "ecosysteme": "Mistral AI (France)",
+        "pourquoi": "Mode agent de travail connecté à vos outils (messagerie, documents) proposé par l'acteur européen.",
+        "modeConfidentiel": "⚠️ Vérifier les connecteurs activés"
+      },
+      "quandEviter": "N'autorisez jamais un agent à envoyer, payer, signer ou supprimer sans validation humaine. Évitez-les sur des comptes contenant des données d'usagers tant que la DSI/le DPO n'a pas validé l'outil.",
+      "donneesAcceptables": [
+        "Documents publics",
+        "Dossier de travail dédié et cloisonné",
+        "Comptes de test"
+      ],
+      "donneesInterdites": [
+        "Messagerie professionnelle complète",
+        "Accès aux logiciels métiers (état civil, finances, RH)",
+        "Identifiants et mots de passe"
+      ],
+      "promptExemple": {
+        "niveau": "Avancé",
+        "role": "Tu es un assistant chargé de préparer un dossier de veille pour une direction générale.",
+        "contexte": "Je dois préparer la réunion de jeudi sur la rénovation énergétique des écoles. Tu as accès uniquement au dossier « Veille écoles » et au web.",
+        "tache": "1) Lis les 4 documents du dossier. 2) Cherche les dispositifs de financement publics en vigueur. 3) Produis une note de 2 pages avec un tableau des financements.",
+        "instructions": "Avant de commencer, présente-moi ton plan et attends mon accord. Cite chaque source. N'envoie rien et ne modifie aucun fichier existant."
+      }
     }
-  }
+  },
+  "meta": {
+    "derniereVerification": "novembre 2026",
+    "avertissement": "Les noms d'outils, offres et fonctionnalités changent tous les mois. Vérifiez sur le site de l'éditeur avant une formation."
+  },
+  "actualites": [
+    {
+      "date": "Nov. 2026",
+      "outil": "ChatGPT",
+      "titre": "ChatGPT Images remplace DALL·E",
+      "detail": "La génération d'images se fait directement dans ChatGPT, avec retouche, images de référence et texte bien plus lisible dans l'image.",
+      "impact": "La fiche « Créer des visuels » ne mentionne plus DALL·E. Le texte dans l'image reste à vérifier (accents, orthographe)."
+    },
+    {
+      "date": "Oct. 2026",
+      "outil": "Google",
+      "titre": "NotebookLM devient Gemini Notebook",
+      "detail": "Même produit, renommé et accessible depuis l'application Gemini. Ajout d'un enregistreur audio mobile et d'échanges vocaux avec ses sources.",
+      "impact": "Fiches « Connaissance projet » et « Compte-rendu réunion » mises à jour. Toujours pas de mode éphémère."
+    },
+    {
+      "date": "Mai 2026",
+      "outil": "Mistral",
+      "titre": "Le Chat devient Mistral Vibe",
+      "detail": "L'assistant de Mistral AI est renommé et se positionne comme agent de travail (Work Mode) connecté à la messagerie et aux documents. L'historique Le Chat est conservé.",
+      "impact": "L'option souveraine s'appelle désormais Mistral Vibe. Les fonctions agent demandent un cadrage DSI/DPO avant usage."
+    },
+    {
+      "date": "2026",
+      "outil": "Claude",
+      "titre": "Recherche web, mémoire et chat incognito",
+      "detail": "Claude cherche sur le web avec citations, mémorise des préférences (modifiables dans Paramètres › Mémoire) et propose un chat incognito sur tous les plans.",
+      "impact": "L'ancienne limite « pas d'accès web » est supprimée. Pensez à désactiver ou vider la mémoire sur un poste partagé."
+    },
+    {
+      "date": "Avr. 2026",
+      "outil": "Microsoft",
+      "titre": "Copilot Chat retiré de Word/Excel/PowerPoint sans licence",
+      "detail": "Selon la presse spécialisée, sans licence Microsoft 365 Copilot payante, Copilot Chat n'est plus disponible dans Word, Excel, PowerPoint et OneNote. Il reste sur le web, dans Outlook et Teams avec le compte pro.",
+      "impact": "Vérifiez auprès de votre DSI quelle licence vous avez avant de recommander Copilot dans Office."
+    },
+    {
+      "date": "2026",
+      "outil": "Tous",
+      "titre": "Généralisation des agents IA",
+      "detail": "ChatGPT, Claude, Gemini et Mistral proposent tous des modes « agent » capables d'enchaîner des actions (web, fichiers, mails).",
+      "impact": "Nouveau cas d'usage « Agent IA ». Règle d'or : aucune action irréversible (envoi, paiement, suppression) sans validation humaine."
+    },
+    {
+      "date": "2026",
+      "outil": "État",
+      "titre": "Albert évolue vers l'« Assistant IA » de l'État",
+      "detail": "L'outil Albert n'est pas généralisé sous sa forme initiale ; la DINUM expérimente un Assistant IA basé sur les modèles Mistral auprès d'agents de l'État. Albert subsiste comme API.",
+      "impact": "Pas (encore) accessible aux agents territoriaux. À surveiller comme future option souveraine."
+    },
+    {
+      "date": "Depuis fév. 2025",
+      "outil": "Réglementation",
+      "titre": "AI Act : obligation de maîtrise de l'IA",
+      "detail": "L'article 4 du règlement européen sur l'IA impose aux organisations qui utilisent des systèmes d'IA de veiller à un niveau suffisant de maîtrise de l'IA de leur personnel.",
+      "impact": "Les formations comme celle-ci participent directement à cette obligation. Gardez une trace des sessions suivies."
+    }
+  ]
 }
