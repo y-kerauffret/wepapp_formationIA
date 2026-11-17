@@ -47,7 +47,9 @@ Termes techniques expliqués simplement : RAG, Tokens, Hallucinations, Prompt, R
 | 👥 RH & organisation | Process, cadres, chartes, fiches de poste |
 | 🎨 Créer des visuels | Illustration, images, inspiration |
 | 🧠 Métaprompt | Faire créer un prompt expert par l'IA |
-| 📊 Analyser des données | Tableaux, budgets, enquêtes, indicateurs |
+| 📊 Analyser des données | Enquêtes, indicateurs, tableaux de suivi |
+| 💶 Budget & Excel | Préparer, structurer et analyser un budget |
+| 🌐 Créer un site ou un outil | Page web, mini-app, quiz (artefacts Claude, Canvas ChatGPT) |
 | ♿ Langage clair & FALC | Simplifier un courrier, un formulaire, une info usager |
 | 🤖 Agent IA | Déléguer une tâche multi-étapes (avec garde-fous) |
 
