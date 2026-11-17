@@ -194,6 +194,11 @@
       "terme": "Agent IA",
       "definition": "IA qui ne se contente pas de répondre : elle planifie et exécute elle-même plusieurs étapes (chercher, ouvrir des fichiers, utiliser des outils, parfois agir dans des applications). Plus autonome, donc plus risquée à mal cadrer.",
       "exemple": "« Prépare-moi une note à partir de ces 4 documents et des sources web » : l'agent lit, cherche, rédige, puis vous soumet le résultat."
+    },
+    "artefact": {
+      "terme": "Artefact",
+      "definition": "Contenu autonome créé par l'IA dans un panneau à part de la conversation (page web, mini-application, document, schéma). On le voit, on le teste et on le fait modifier en langage naturel, puis on peut le partager par un lien.",
+      "exemple": "« Crée-moi un quiz interactif sur le RGPD » : Claude affiche le quiz prêt à l'emploi, que vous pouvez corriger (« ajoute 3 questions ») puis partager à vos collègues."
     }
   },
   "modesConfidentiels": {
@@ -890,7 +895,7 @@
     "Analyser des données": {
       "icon": "📊",
       "nouveau": true,
-      "description": "Tableaux, budgets, enquêtes, indicateurs",
+      "description": "Enquêtes, indicateurs, tableaux de suivi",
       "principal": {
         "nom": "ChatGPT (analyse de données)",
         "ecosysteme": "OpenAI",
@@ -1037,6 +1042,109 @@
         "contexte": "Je dois préparer la réunion de jeudi sur la rénovation énergétique des écoles. Tu as accès uniquement au dossier « Veille écoles » et au web.",
         "tache": "1) Lis les 4 documents du dossier. 2) Cherche les dispositifs de financement publics en vigueur. 3) Produis une note de 2 pages avec un tableau des financements.",
         "instructions": "Avant de commencer, présente-moi ton plan et attends mon accord. Cite chaque source. N'envoie rien et ne modifie aucun fichier existant."
+      }
+    },
+    "Budget & Excel": {
+      "icon": "💶",
+      "nouveau": true,
+      "description": "Préparer, structurer et analyser un budget à partir de fichiers Excel",
+      "principal": {
+        "nom": "Claude (fichiers Excel)",
+        "ecosysteme": "Anthropic",
+        "pourquoi": "Lit vos fichiers Excel, exécute de vrais calculs et produit en retour un fichier .xlsx avec formules (pas seulement des valeurs figées) : scénarios, tableaux de synthèse, graphiques.",
+        "modeConfidentiel": "Chat incognito",
+        "forces": [
+          "Génère un classeur Excel avec formules vérifiables",
+          "Scénarios « et si » (hausse énergie, baisse dotations…)",
+          "Explique chaque calcul"
+        ],
+        "limites": [
+          "Peut mal interpréter une structure de fichier atypique",
+          "Ne connaît pas vos arbitrages politiques : c'est vous qui fixez les hypothèses"
+        ]
+      },
+      "alternative": {
+        "nom": "Copilot (Excel)",
+        "ecosysteme": "Microsoft",
+        "pourquoi": "Travaille directement dans votre classeur : formules, tableaux croisés dynamiques, mise en forme, commentaires d'écarts. Le plus naturel si vos fichiers sont sur SharePoint/OneDrive.",
+        "modeConfidentiel": "⚠️ Licence Microsoft 365 Copilot payante requise dans Excel"
+      },
+      "souverain": {
+        "nom": "Mistral Vibe (ex-Le Chat)",
+        "ecosysteme": "Mistral AI (France)",
+        "pourquoi": "Analyse de fichiers et interpréteur de code, hébergement européen. Moins abouti pour produire un classeur Excel complet.",
+        "modeConfidentiel": "Mode incognito"
+      },
+      "quandEviter": "N'utilisez jamais un chiffre produit par l'IA dans un document budgétaire officiel (BP, DOB/ROB, DM) sans recalcul dans votre logiciel financier. L'IA aide à structurer et à explorer, la maquette réglementaire reste celle de votre outil métier.",
+      "donneesAcceptables": [
+        "Budgets votés et comptes administratifs publiés",
+        "Données agrégées par chapitre / fonction (M57)",
+        "Hypothèses de travail anonymisées"
+      ],
+      "donneesInterdites": [
+        "Fichiers de paie ou rémunérations individuelles",
+        "Montants d'offres de marchés non attribués",
+        "Données fiscales individuelles"
+      ],
+      "promptExemple": {
+        "niveau": "Standard",
+        "role": "Tu es un directeur financier expérimenté dans une commune de 20 000 habitants (nomenclature M57).",
+        "contexte": "Je te fournis deux fichiers Excel : le compte administratif 2025 et le budget primitif 2026 (données agrégées par chapitre). Je prépare le rapport d'orientation budgétaire 2027.",
+        "tache": "1) Compare 2025 et 2026 par chapitre, en fonctionnement et en investissement. 2) Identifie les 5 écarts les plus significatifs. 3) Construis un classeur Excel 2027 avec 3 scénarios (prudent, central, volontariste) dont les hypothèses sont modifiables dans un onglet dédié.",
+        "instructions": "Utilise des formules Excel, pas des valeurs en dur. Signale toute incohérence ou donnée manquante au lieu de la deviner. Termine par 5 lignes de synthèse compréhensibles par un élu non spécialiste."
+      }
+    },
+    "Créer un site ou un outil (artefact)": {
+      "icon": "🌐",
+      "nouveau": true,
+      "description": "Page web, mini-application, quiz, support interactif, sans coder",
+      "definitions": [
+        "artefact"
+      ],
+      "principal": {
+        "nom": "Claude (Artefacts)",
+        "ecosysteme": "Anthropic",
+        "pourquoi": "Génère une page ou une petite application interactive affichée à côté de la conversation, modifiable en langage naturel et partageable par lien. Idéal pour un quiz de formation, un simulateur, un tableau de bord, une page d'information.",
+        "modeConfidentiel": "⚠️ Un artefact partagé par lien est visible par toute personne qui a le lien",
+        "forces": [
+          "Résultat visible et testable immédiatement",
+          "Modifications par simple demande (« ajoute un bouton… »)",
+          "Partage par lien, sans hébergement à gérer"
+        ],
+        "limites": [
+          "Pas un site institutionnel (pas de nom de domaine de la collectivité)",
+          "Stockage de données limité et à cadrer"
+        ]
+      },
+      "alternative": {
+        "nom": "ChatGPT (Canvas)",
+        "ecosysteme": "OpenAI",
+        "pourquoi": "Le Canvas génère le code HTML/React d'une page et en affiche un aperçu. Bon pour prototyper un site, puis récupérer le code pour le confier à un prestataire ou l'héberger (ex. GitHub Pages).",
+        "modeConfidentiel": "Discussion temporaire (le code produit vous appartient)"
+      },
+      "souverain": {
+        "nom": "Mistral Vibe (ex-Le Chat)",
+        "ecosysteme": "Mistral AI (France)",
+        "pourquoi": "Génération de code et aperçu dans l'interface, hébergement européen. Utile pour prototyper en interne.",
+        "modeConfidentiel": "Mode incognito"
+      },
+      "quandEviter": "N'en faites pas le site officiel de la collectivité : il doit respecter le RGAA (accessibilité), les mentions légales et le RGPD, et être hébergé et maintenu par la DSI. Aucun formulaire ne doit collecter de données personnelles d'usagers via un artefact. Usage recommandé : prototypes, outils internes, supports de formation.",
+      "donneesAcceptables": [
+        "Contenus publics (horaires, démarches, FAQ)",
+        "Supports de formation",
+        "Données fictives pour un prototype"
+      ],
+      "donneesInterdites": [
+        "Formulaires collectant des données d'usagers",
+        "Données nominatives intégrées dans la page",
+        "Identifiants ou clés d'accès dans le code"
+      ],
+      "promptExemple": {
+        "niveau": "Standard",
+        "role": "Tu es un concepteur web spécialisé dans les outils pédagogiques pour la fonction publique territoriale.",
+        "contexte": "J'anime une formation de 2 heures sur l'IA pour des agents administratifs non techniciens. Je veux un outil interactif à projeter et à partager ensuite.",
+        "tache": "Crée une page web autonome : un quiz de 10 questions « Vrai ou faux sur l'IA » (hallucinations, confidentialité, RGPD), avec la correction expliquée après chaque réponse et un score final.",
+        "instructions": "Une seule page HTML, sans dépendance externe. Design sobre, gros caractères, contrastes suffisants (accessibilité). Fonctionne sur téléphone. Pas de collecte de données : le score reste dans le navigateur."
       }
     }
   },
