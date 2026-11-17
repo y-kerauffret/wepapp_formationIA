@@ -47,13 +47,16 @@ Termes techniques expliqués simplement : RAG, Tokens, Hallucinations, Prompt, R
 | 👥 RH & organisation | Process, cadres, chartes, fiches de poste |
 | 🎨 Créer des visuels | Illustration, images, inspiration |
 | 🧠 Métaprompt | Faire créer un prompt expert par l'IA |
+| 📊 Analyser des données | Tableaux, budgets, enquêtes, indicateurs |
+| ♿ Langage clair & FALC | Simplifier un courrier, un formulaire, une info usager |
+| 🤖 Agent IA | Déléguer une tâche multi-étapes (avec garde-fous) |
 
 ## Outils référencés
 
-- **OpenAI** : ChatGPT, GPTs, Canvas, DALL·E
+- **OpenAI** : ChatGPT, GPTs, Canvas, ChatGPT Images
 - **Anthropic** : Claude 3.5 / Claude 4
-- **Google** : Gemini, Gems, NotebookLM
-- **Mistral AI** : Le Chat (solution souveraine française)
+- **Google** : Gemini, Gems, Gemini Notebook (ex-NotebookLM)
+- **Mistral AI** : Mistral Vibe, ex-Le Chat (solution souveraine française)
 - **Autres** : Perplexity, Gamma, Copilot, Plaud
 
 ## Stack technique
