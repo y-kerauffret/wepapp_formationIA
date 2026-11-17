@@ -119,3 +119,18 @@ Projet à usage pédagogique.
 ---
 
 *Construit avec Claude Code – Anthropic*
+
+## Structure technique
+
+```
+index.html          Squelette de la page
+data.json           Tout le contenu (besoins, familles, outils, actualités, glossaire)
+assets/style.css    Styles (aucun framework, aucun CDN)
+assets/app.js       Navigation par URL (#/besoin/...), recherche, workflow
+assets/icons.js     Icônes Lucide (ISC) intégrées
+assets/fonts/       Polices auto-hébergées (Bricolage Grotesque, Atkinson Hyperlegible Next — SIL OFL)
+```
+
+Aucune ressource externe n'est chargée : pas de transfert d'adresse IP des visiteurs à un tiers (point d'attention RGPD avec Google Fonts ou les CDN).
+
+Pour mettre à jour le contenu, modifier uniquement `data.json` (ajouter un besoin dans `recommandations` **et** dans la bonne famille de `familles`). Pour tester en local : `python3 -m http.server` puis ouvrir http://localhost:8000.
