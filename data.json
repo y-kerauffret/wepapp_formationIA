@@ -202,7 +202,7 @@
     }
   },
   "modesConfidentiels": {
-    "info": "Pour tout document de travail, activez le mode temporaire/incognito : la conversation n'apparaît pas dans l'historique et ne sert pas à entraîner le modèle. ⚠️ Ce n'est pas une garantie de non-conservation : certains éditeurs gardent ces échanges plusieurs semaines (ex. 30 jours chez OpenAI) pour la sécurité. Pour des données sensibles, seule une offre professionnelle sous contrat validée par votre DPO fait foi.",
+    "info": "Pour tout document de travail, activez le mode temporaire/incognito : la conversation n'apparaît pas dans l'historique et ne sert pas à entraîner le modèle. Attention : ce n'est pas une garantie de non-conservation : certains éditeurs gardent ces échanges plusieurs semaines (ex. 30 jours chez OpenAI) pour la sécurité. Pour des données sensibles, seule une offre professionnelle sous contrat validée par votre DPO fait foi.",
     "outils": {
       "ChatGPT": {
         "disponible": true,
@@ -289,7 +289,8 @@
         "contexte": "Je dois répondre à un administré mécontent d'un retard de traitement de son dossier d'urbanisme. Le délai légal est dépassé de 2 semaines. Ton : professionnel, empathique, sans excuse excessive.",
         "tache": "Rédige un mail de réponse qui reconnaît le retard, explique brièvement la cause (surcharge ponctuelle), et donne une échéance réaliste.",
         "instructions": "150 mots maximum. Pas de jargon juridique. Terminer par une formule d'ouverture (contact direct si besoin)."
-      }
+      },
+      "picto": "pen-line"
     },
     "Synthétiser": {
       "icon": "📋",
@@ -338,7 +339,8 @@
         "contexte": "Je te fournis 3 rapports d'activité trimestriels de services différents. Je dois présenter une synthèse consolidée au DGS.",
         "tache": "Produis une synthèse de 500 mots maximum, structurée en : points saillants, alertes, recommandations.",
         "instructions": "Utilise des bullet points pour les alertes. Cite les sources (Rapport 1, 2, 3). Ton factuel et neutre."
-      }
+      },
+      "picto": "file-text"
     },
     "Rechercher & vérifier": {
       "icon": "🔍",
@@ -385,7 +387,8 @@
         "contexte": "Je dois vérifier les dernières évolutions réglementaires sur l'accessibilité des ERP (Établissements Recevant du Public) en 2025-2026.",
         "tache": "Recherche les textes récents, les dates d'application, et les obligations principales.",
         "instructions": "Cite tes sources avec les liens. Distingue ce qui est en vigueur de ce qui est à venir. Format : liste structurée."
-      }
+      },
+      "picto": "search-check"
     },
     "Connaissance projet": {
       "icon": "🗂️",
@@ -432,7 +435,8 @@
         "contexte": "Corpus : les 5 rapports annuels du service Éducation 2019-2024.",
         "tache": "Quelle a été l'évolution des effectifs scolaires sur la période ?",
         "instructions": "Gemini Notebook cite automatiquement les sources. Posez des questions directes et précises, et cliquez sur les citations pour vérifier."
-      }
+      },
+      "picto": "library"
     },
     "Présenter": {
       "icon": "🎯",
@@ -474,7 +478,8 @@
         "contexte": "Je dois présenter le bilan annuel du service Petite Enfance au conseil municipal. 15 minutes max.",
         "tache": "Propose un plan de présentation en 8-10 slides avec les titres et points clés de chaque slide.",
         "instructions": "Public : élus non experts. Ton : factuel mais engageant. Inclure : chiffres clés, réalisations, perspectives."
-      }
+      },
+      "picto": "presentation"
     },
     "Automatiser": {
       "icon": "⚙️",
@@ -525,7 +530,8 @@
         "contexte": "Je veux créer un GPT qui aide les agents à rédiger des réponses aux courriers des administrés.",
         "tache": "Propose les instructions système (system prompt) pour ce GPT.",
         "instructions": "Le GPT doit : demander le contexte, proposer 2 versions (formelle/accessible), rappeler les points de vigilance RGPD."
-      }
+      },
+      "picto": "workflow"
     },
     "Compte-rendu réunion": {
       "icon": "🎙️",
@@ -570,7 +576,8 @@
         "contexte": "Audio d'une réunion de service de 45 minutes sur le planning des congés d'été.",
         "tache": "Après upload, demandez : 'Quelles sont les décisions prises ? Qui doit faire quoi ?'",
         "instructions": "Posez des questions précises. Demandez le format : 'Sous forme de liste d'actions avec responsable et échéance.'"
-      }
+      },
+      "picto": "message-square-text"
     },
     "Plaud & enregistreurs IA": {
       "icon": "📱",
@@ -617,7 +624,8 @@
         "contexte": "Vous avez enregistré une visite de chantier de 30 minutes avec le chef de projet et l'entreprise.",
         "tache": "Une fois la transcription générée par Plaud, exportez-la vers Claude, ChatGPT ou Mistral Vibe pour structurer le compte-rendu.",
         "instructions": "Prompt de structuration : 'Voici la transcription d'une visite de chantier. Produis un CR structuré : participants, points abordés, décisions, actions à suivre.'"
-      }
+      },
+      "picto": "audio-lines"
     },
     "Gestion de crise": {
       "icon": "🚨",
@@ -664,7 +672,8 @@
         "contexte": "Incident : fuite d'eau majeure dans une école, découverte à 7h, rentrée scolaire à 8h30. 200 élèves concernés.",
         "tache": "Produis une checklist d'actions immédiates (0-2h) et une matrice de décision (fermer/maintenir/délocaliser).",
         "instructions": "Format : checklist numérotée avec responsable suggéré. Matrice : critères en lignes, options en colonnes."
-      }
+      },
+      "picto": "siren"
     },
     "Multimodal": {
       "icon": "🎬",
@@ -711,7 +720,8 @@
         "contexte": "Je t'uploade une photo d'un panneau d'affichage municipal détérioré.",
         "tache": "Décris l'état du panneau, identifie les dégradations visibles, suggère les réparations nécessaires.",
         "instructions": "Sois factuel et précis. Format : liste des dégradations constatées + recommandations."
-      }
+      },
+      "picto": "palette"
     },
     "RH & organisation": {
       "icon": "👥",
@@ -760,7 +770,8 @@
         "contexte": "Je dois rédiger une fiche de poste pour un(e) chargé(e) de communication digitale. Collectivité de 20 000 habitants.",
         "tache": "Produis une fiche de poste complète : missions, activités, compétences requises, positionnement.",
         "instructions": "Respecte le format fonction publique (cadre d'emplois, filière). Sois précis sur les compétences techniques et relationnelles."
-      }
+      },
+      "picto": "users"
     },
     "Créer des visuels": {
       "icon": "🎨",
@@ -804,7 +815,8 @@
         "contexte": "Je prépare un support de formation sur l'IA pour des agents administratifs.",
         "tache": "Génère une illustration conceptuelle montrant la collaboration humain-IA dans un bureau moderne.",
         "instructions": "Style : flat design coloré, tons bleus et verts, pas de texte dans l'image, ambiance positive et professionnelle."
-      }
+      },
+      "picto": "images"
     },
     "Métaprompt": {
       "icon": "🧠",
@@ -890,7 +902,8 @@
         "contexte": "Je dois [DÉCRIRE VOTRE OBJECTIF]. Mon contexte : [DÉCRIRE VOTRE SITUATION]. Le résultat sera utilisé pour [DÉCRIRE L'USAGE FINAL].",
         "tache": "Génère le prompt optimal, structuré en RCTI (Rôle, Contexte, Tâche, Instructions), que je pourrai utiliser pour obtenir le meilleur résultat possible.",
         "instructions": "Le prompt doit être : précis, actionnable, adapté à mon contexte métier. Inclus des consignes sur le format de sortie attendu. Explique brièvement pourquoi tu as fait ces choix."
-      }
+      },
+      "picto": "sparkles"
     },
     "Analyser des données": {
       "icon": "📊",
@@ -940,7 +953,8 @@
         "contexte": "Je te fournis un fichier Excel des dépenses de fonctionnement 2024-2025 par service (données agrégées, sans nom).",
         "tache": "Calcule l'évolution par service, identifie les 3 plus fortes hausses et produis un graphique en barres.",
         "instructions": "Montre le code ou la formule utilisée pour chaque calcul. Signale toute donnée manquante ou incohérente au lieu de la deviner. Résumé en 5 lignes pour un élu."
-      }
+      },
+      "picto": "chart-column"
     },
     "Langage clair & FALC": {
       "icon": "♿",
@@ -989,7 +1003,8 @@
         "contexte": "Voici le courrier type envoyé aux familles pour l'inscription à la cantine. Beaucoup de familles appellent car elles ne le comprennent pas.",
         "tache": "Réécris ce courrier en langage clair, puis liste les informations que tu as dû simplifier ou retirer.",
         "instructions": "Phrases de 15 mots maximum, un message par paragraphe, verbes d'action, pas de sigle non expliqué. Ne supprime aucune date, aucun montant, aucune pièce à fournir."
-      }
+      },
+      "picto": "accessibility"
     },
     "Agent IA (tâche multi-étapes)": {
       "icon": "🤖",
@@ -1042,7 +1057,8 @@
         "contexte": "Je dois préparer la réunion de jeudi sur la rénovation énergétique des écoles. Tu as accès uniquement au dossier « Veille écoles » et au web.",
         "tache": "1) Lis les 4 documents du dossier. 2) Cherche les dispositifs de financement publics en vigueur. 3) Produis une note de 2 pages avec un tableau des financements.",
         "instructions": "Avant de commencer, présente-moi ton plan et attends mon accord. Cite chaque source. N'envoie rien et ne modifie aucun fichier existant."
-      }
+      },
+      "picto": "bot"
     },
     "Budget & Excel": {
       "icon": "💶",
@@ -1092,7 +1108,8 @@
         "contexte": "Je te fournis deux fichiers Excel : le compte administratif 2025 et le budget primitif 2026 (données agrégées par chapitre). Je prépare le rapport d'orientation budgétaire 2027.",
         "tache": "1) Compare 2025 et 2026 par chapitre, en fonctionnement et en investissement. 2) Identifie les 5 écarts les plus significatifs. 3) Construis un classeur Excel 2027 avec 3 scénarios (prudent, central, volontariste) dont les hypothèses sont modifiables dans un onglet dédié.",
         "instructions": "Utilise des formules Excel, pas des valeurs en dur. Signale toute incohérence ou donnée manquante au lieu de la deviner. Termine par 5 lignes de synthèse compréhensibles par un élu non spécialiste."
-      }
+      },
+      "picto": "wallet"
     },
     "Créer un site ou un outil (artefact)": {
       "icon": "🌐",
@@ -1145,7 +1162,8 @@
         "contexte": "J'anime une formation de 2 heures sur l'IA pour des agents administratifs non techniciens. Je veux un outil interactif à projeter et à partager ensuite.",
         "tache": "Crée une page web autonome : un quiz de 10 questions « Vrai ou faux sur l'IA » (hallucinations, confidentialité, RGPD), avec la correction expliquée après chaque réponse et un score final.",
         "instructions": "Une seule page HTML, sans dépendance externe. Design sobre, gros caractères, contrastes suffisants (accessibilité). Fonctionne sur téléphone. Pas de collecte de données : le score reste dans le navigateur."
-      }
+      },
+      "picto": "globe"
     }
   },
   "meta": {
@@ -1208,6 +1226,80 @@
       "titre": "AI Act : obligation de maîtrise de l'IA",
       "detail": "L'article 4 du règlement européen sur l'IA impose aux organisations qui utilisent des systèmes d'IA de veiller à un niveau suffisant de maîtrise de l'IA de leur personnel.",
       "impact": "Les formations comme celle-ci participent directement à cette obligation. Gardez une trace des sessions suivies."
+    }
+  ],
+  "familles": [
+    {
+      "id": "communiquer",
+      "titre": "Communiquer",
+      "description": "Écrire, simplifier, présenter, illustrer.",
+      "teinte": "terracotta",
+      "picto": "megaphone",
+      "besoins": [
+        "Rédiger",
+        "Langage clair & FALC",
+        "Présenter",
+        "Créer des visuels"
+      ]
+    },
+    {
+      "id": "comprendre",
+      "titre": "S'informer & synthétiser",
+      "description": "Lire vite, chercher juste, interroger vos documents.",
+      "teinte": "canard",
+      "picto": "book-open-text",
+      "besoins": [
+        "Synthétiser",
+        "Rechercher & vérifier",
+        "Connaissance projet"
+      ]
+    },
+    {
+      "id": "reunions",
+      "titre": "Réunions & audio",
+      "description": "Transcrire, résumer, exploiter l'oral et l'image.",
+      "teinte": "prune",
+      "picto": "mic",
+      "besoins": [
+        "Compte-rendu réunion",
+        "Plaud & enregistreurs IA",
+        "Multimodal"
+      ]
+    },
+    {
+      "id": "chiffres",
+      "titre": "Chiffres & budget",
+      "description": "Calculer, comparer, préparer des arbitrages.",
+      "teinte": "ocre",
+      "picto": "chart-column",
+      "besoins": [
+        "Budget & Excel",
+        "Analyser des données"
+      ]
+    },
+    {
+      "id": "piloter",
+      "titre": "Piloter & organiser",
+      "description": "Structurer l'action, cadrer les équipes.",
+      "teinte": "sauge",
+      "picto": "landmark",
+      "besoins": [
+        "Gestion de crise",
+        "RH & organisation"
+      ]
+    },
+    {
+      "id": "creer",
+      "titre": "Créer & automatiser",
+      "description": "Fabriquer des outils, déléguer, mieux prompter.",
+      "teinte": "ardoise",
+      "picto": "wand-sparkles",
+      "besoins": [
+        "Créer un site ou un outil (artefact)",
+        "Automatiser",
+        "Agent IA (tâche multi-étapes)",
+        "Métaprompt"
+      ]
     }
   ]
 }
